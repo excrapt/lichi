@@ -120,7 +120,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--lychee); outli
 .lang:hover { background: var(--soft); border-color: transparent; }
 
 /* ---------- Hero: soft glow fields from the app palette, then the scan → score moment */
-.hero { position: relative; padding: 56px 0 var(--section); }
+.hero { position: relative; overflow-x: clip; padding: 56px 0 var(--section); }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); gap: 48px; align-items: center; }
 .hero h1 { font-family: var(--round); font-weight: 800; font-size: clamp(42px, 6.2vw, 72px); line-height: 1.03; letter-spacing: -0.028em; margin: 0 0 20px; text-wrap: balance; }
 .hero .lead { font-size: clamp(18px, 2vw, 21px); line-height: 1.5; color: var(--muted); margin: 0 0 28px; max-width: 31em; text-wrap: pretty; }
@@ -128,8 +128,9 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--lychee); outli
 .soon::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--band-best); box-shadow: 0 0 0 4px color-mix(in srgb, var(--band-best) 30%, transparent); }
 
 .hero-art { position: relative; justify-self: center; width: min(100%, 400px); }
-.hero-art::before { content: ""; position: absolute; inset: -6%; border-radius: 50%; background: radial-gradient(closest-side, var(--glow) 0%, var(--glow-soft) 55%, transparent 100%); }
-.hero-art img { position: relative; width: 100%; height: auto; display: block; filter: drop-shadow(0 22px 36px var(--glow-shadow)); }
+.hero-art::before { content: ""; position: absolute; inset: -20%; border-radius: 50%; background: radial-gradient(closest-side, var(--glow) 0%, var(--glow) 45%, var(--glow-soft) 70%, transparent 100%); }
+.hero-art::after { content: ""; position: absolute; left: 18%; right: 18%; bottom: -2%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, var(--glow-shadow), transparent); }
+.hero-art img { position: relative; z-index: 1; width: 100%; height: auto; display: block; }
 .scan-line { position: absolute; left: 6%; right: 6%; top: 12%; height: 3px; border-radius: 3px; background: var(--lychee); box-shadow: 0 0 12px 2px color-mix(in srgb, var(--lychee) 60%, transparent), 0 0 32px 8px color-mix(in srgb, var(--lychee) 25%, transparent); opacity: 0; pointer-events: none; }
 
 /* The 0–10 scale with its example marker */
@@ -169,7 +170,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--lychee); outli
 .example figcaption { font-size: 14px; color: var(--muted); margin: 0 0 10px 6px; }
 .ex-card { background: var(--surface); border-radius: 28px; padding: 24px; box-shadow: var(--card-shadow); border: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
 .ex-top { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
-.ring { --p: var(--score); flex: none; width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--band-good) calc(var(--p) * 1%), var(--soft) 0); position: relative; transition: --p 1.2s var(--ease-out) .15s; }
+.ring { --p: var(--score); flex: none; width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--band-good) calc(var(--p) * 1%), var(--soft) 0); position: relative; transition: --p .7s var(--ease-out) .05s; }
 .ring::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--surface); }
 .ring span { position: relative; font-family: var(--round); font-weight: 800; font-size: 24px; }
 .ex-name { font-family: var(--round); font-weight: 750; font-size: 19px; margin: 0 0 2px; }
@@ -241,7 +242,8 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--lychee); outli
 .anat-left .arw { right: -84px; top: 50%; margin-top: -20px; }
 .anat-right .arw { left: -84px; top: 50%; margin-top: -20px; transform: scaleX(-1); }
 .call.up .arw { width: 40px; height: 56px; left: 50%; top: -64px; margin-left: -20px; }
-.pack-svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 18px 30px rgba(220, 122, 51, 0.28)); }
+.anat-pack::before { content: ""; position: absolute; inset: 4% -10% 2%; border-radius: 50%; background: radial-gradient(closest-side, rgba(236, 140, 64, 0.22), transparent); }
+.pack-svg { position: relative; display: block; width: 100%; height: auto; }
 .pk-t1 { font-family: var(--round); font-weight: 800; font-size: 24px; fill: #5A3218; }
 .pk-t2 { font-family: var(--round); font-weight: 700; font-size: 17px; fill: #FFF8F0; }
 .anat-pack .scan-line { left: 4%; right: 4%; }
@@ -272,13 +274,13 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--lychee); outli
   .js .anat:not(.in) .arw path { stroke-dashoffset: 1; }
   .js .anat:not(.in) .pack-score { opacity: 0; transform: scale(.6); }
   .js .anat:not(.in) .pack-score .ring { --p: 0; }
-  .anat-pack { transition: opacity .5s var(--ease-out), transform .6s var(--ease-pop); }
-  .anat.in .anat-pack .scan-line { animation: scan .9s var(--ease-out) .35s both; }
-  .call { transition: opacity .45s var(--ease-out), transform .45s var(--ease-out); transition-delay: calc(var(--i) * 90ms + 1.05s); }
-  .arw path { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .5s var(--ease-out); transition-delay: calc(var(--i) * 90ms + 1.25s); }
-  .arw path.head { transition-delay: calc(var(--i) * 90ms + 1.6s); transition-duration: .2s; }
-  .pack-score { transition: opacity .4s var(--ease-pop) 1.2s, transform .5s var(--ease-pop) 1.2s; }
-  .pack-score .ring { transition: --p 1s var(--ease-out) 1.35s; }
+  .anat-pack { transition: opacity .3s var(--ease-out), transform .35s var(--ease-pop); }
+  .anat.in .anat-pack .scan-line { animation: scan .6s var(--ease-out) .05s both; }
+  .call { transition: opacity .28s var(--ease-out), transform .28s var(--ease-out); transition-delay: calc(var(--i) * 40ms + .05s); }
+  .arw path { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .28s var(--ease-out); transition-delay: calc(var(--i) * 40ms + .12s); }
+  .arw path.head { transition-delay: calc(var(--i) * 40ms + .36s); transition-duration: .1s; }
+  .pack-score { transition: opacity .25s var(--ease-pop) .12s, transform .3s var(--ease-pop) .12s; }
+  .pack-score .ring { transition: --p .5s var(--ease-out) .15s; }
 }
 
 /* ---------- Legal and support pages */
@@ -337,7 +339,7 @@ details[open]::details-content { block-size: auto; opacity: 1; }
   body { font-size: 16px; }
   .hero { padding-top: 24px; }
   .hero-grid { grid-template-columns: 1fr; gap: 12px; }
-  .hero-art { order: -1; width: 210px; justify-self: start; margin-left: -8px; }
+  .hero-art { order: -1; width: 200px; justify-self: center; margin: 4px auto 8px; }
   .feat-grid { grid-template-columns: 1fr; gap: 40px; }
   .sheet { grid-template-columns: 1fr; gap: 36px; padding: 32px 24px; border-radius: 28px; }
   .site-nav { margin-inline: -12px; }
@@ -358,33 +360,41 @@ details[open]::details-content { block-size: auto; opacity: 1; }
 
 /* ---------- Motion: one load sequence in the hero, one reveal for the example card */
 @media (prefers-reduced-motion: no-preference) {
-  .hero h1, .hero .lead, .soon { animation: rise .7s var(--ease-out) both; }
-  .hero .lead { animation-delay: .08s; }
-  .soon { animation-delay: .16s; }
-  .hero-art img { animation: pop-in .7s var(--ease-pop) .05s both; }
-  .hero-art::before { animation: glow-on .9s var(--ease-out) 1.25s both; }
-  .scan-line { animation: scan 1s var(--ease-out) .45s both; }
+  .hero h1, .hero .lead, .soon { animation: rise .45s var(--ease-out) both; }
+  .hero .lead { animation-delay: .05s; }
+  .soon { animation-delay: .1s; }
+  .hero-art img { animation: pop-in .5s var(--ease-pop) both; }
+  .hero-art::before, .hero-art::after { animation: fade-in .5s var(--ease-out) .15s both; }
   .scale-bar span { transform-origin: left center; animation: grow .6s var(--ease-out) both; }
-  .scale-bar span:nth-child(1) { animation-delay: .55s; }
-  .scale-bar span:nth-child(2) { animation-delay: .62s; }
-  .scale-bar span:nth-child(3) { animation-delay: .69s; }
-  .scale-bar span:nth-child(4) { animation-delay: .76s; }
-  .scale-bar span:nth-child(5) { animation-delay: .83s; }
-  .marker { animation: drop .55s var(--ease-pop) 1.35s both; }
+  .scale-bar span { animation-duration: .4s; }
+  .scale-bar span:nth-child(1) { animation-delay: .1s; }
+  .scale-bar span:nth-child(2) { animation-delay: .14s; }
+  .scale-bar span:nth-child(3) { animation-delay: .18s; }
+  .scale-bar span:nth-child(4) { animation-delay: .22s; }
+  .scale-bar span:nth-child(5) { animation-delay: .26s; }
+  .marker { animation: drop .4s var(--ease-pop) .4s both; }
 
   .js .example:not(.in) .ex-card { opacity: 0; transform: translateY(24px) scale(.98); }
   .js .example:not(.in) .ring { --p: 0; }
   .js .example:not(.in) .ex-list li, .js .example:not(.in) .ex-ingr li { opacity: 0; transform: translateY(6px); }
-  .ex-card { transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
-  .ex-list li, .ex-ingr li { transition: opacity .35s var(--ease-out), transform .35s var(--ease-out); transition-delay: calc(var(--i, 0) * 60ms + .35s); }
+  .ex-card { transition: opacity .4s var(--ease-out), transform .4s var(--ease-out); }
+  .ex-list li, .ex-ingr li { transition: opacity .25s var(--ease-out), transform .25s var(--ease-out); transition-delay: calc(var(--i, 0) * 35ms + .1s); }
 }
+/* «Reduce motion» on (also Windows with animation effects off): nothing moves, things only fade in quickly */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   details::details-content { transition: none; }
+  .hero h1, .hero .lead, .soon, .hero-art img, .hero-art::before, .hero-art::after, .scale { animation: fade-in .4s ease-out both; }
+  .hero .lead { animation-delay: .05s; }
+  .soon, .hero-art img, .hero-art::before, .hero-art::after { animation-delay: .1s; }
+  .scale { animation-delay: .15s; }
+  .js .example:not(.in) .ex-card, .js .anat:not(.in) .anat-pack, .js .anat:not(.in) .call, .js .anat:not(.in) .pack-score { opacity: 0; }
+  .ex-card, .anat-pack, .call, .pack-score { transition: opacity .35s ease-out; }
+  .call { transition-delay: calc(var(--i, 0) * 40ms); }
 }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@keyframes pop-in { from { opacity: 0; transform: scale(.86) rotate(-6deg); } to { opacity: 1; transform: none; } }
-@keyframes glow-on { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+@keyframes pop-in { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scan { 0% { top: 14%; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { top: 84%; opacity: 0; } }
 @keyframes grow { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
 @keyframes drop { from { opacity: 0; transform: translate(-50%, -12px) scale(.7); } to { opacity: 1; transform: translateX(-50%); } }

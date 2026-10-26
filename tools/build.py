@@ -110,7 +110,7 @@ def layout(lang, page, title, description, body):
   if (!('IntersectionObserver' in window)) {{ items.forEach(function (el) {{ el.classList.add('in'); }}); return; }}
   var io = new IntersectionObserver(function (entries) {{
     entries.forEach(function (e) {{ if (e.isIntersecting) {{ e.target.classList.add('in'); io.unobserve(e.target); }} }});
-  }}, {{ threshold: 0.3 }});
+  }}, {{ threshold: 0, rootMargin: '0px 0px 12% 0px' }});
   items.forEach(function (el) {{ io.observe(el); }});
 }})();
 </script>
@@ -315,7 +315,6 @@ def home(lang):
     </div>
     <div class="hero-art">
       <picture><source srcset="{root}assets/lichi.webp" type="image/webp"><img src="{root}assets/lichi.png" alt="{c['mascot_alt']}" width="440" height="440"></picture>
-      <span class="scan-line" aria-hidden="true"></span>
     </div>
   </div>
 </section>
