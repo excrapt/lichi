@@ -4,7 +4,8 @@ import re
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent
-BASE = 'https://excrapt.github.io/lichi/'
+BASE = 'https://lichi.mom/'
+PATH = '/'  # where the site lives on its domain ('/lichi/' on excrapt.github.io before the custom domain)
 EMAIL = 'lichisupport@gmail.com'
 INSTAGRAM = 'https://www.instagram.com/lichi_app/'
 UPDATED = {'uk': '26 жовтня 2026 р.', 'en': 'October 26, 2026'}
@@ -747,18 +748,18 @@ for lang in ('uk', 'en'):
         (folder / name).write_text(layout(lang, page, title, desc, body), encoding='utf-8')
 
 # 404 page (GitHub Pages serves it for missing paths)
-nf_body = '''
+nf_body = f'''
 <article class="doc"><div class="prose-wrap">
 <h1>Сторінку не знайдено</h1>
-<p class="intro">Такої сторінки немає. Перейдіть на <a href="/lichi/">головну</a> або до <a href="/lichi/support.html">підтримки</a>.</p>
-<p lang="en">This page does not exist. Go to the <a href="/lichi/en/">home page</a> or <a href="/lichi/en/support.html">support</a>.</p>
+<p class="intro">Такої сторінки немає. Перейдіть на <a href="{PATH}">головну</a> або до <a href="{PATH}support.html">підтримки</a>.</p>
+<p lang="en">This page does not exist. Go to the <a href="{PATH}en/">home page</a> or <a href="{PATH}en/support.html">support</a>.</p>
 </div></article>
 '''
 nf = layout('uk', 'index', 'Сторінку не знайдено — Lichi', 'Сторінку не знайдено.', nf_body)
-nf = nf.replace('href="./"', 'href="/lichi/"').replace('href="support.html"', 'href="/lichi/support.html"') \
-       .replace('href="privacy.html"', 'href="/lichi/privacy.html"').replace('href="terms.html"', 'href="/lichi/terms.html"') \
-       .replace('href="en/"', 'href="/lichi/en/"').replace('href="favicon.png"', 'href="/lichi/favicon.png"') \
-       .replace('href="assets/', 'href="/lichi/assets/').replace('src="assets/', 'src="/lichi/assets/')
+nf = nf.replace('href="./"', f'href="{PATH}"').replace('href="support.html"', f'href="{PATH}support.html"') \
+       .replace('href="privacy.html"', f'href="{PATH}privacy.html"').replace('href="terms.html"', f'href="{PATH}terms.html"') \
+       .replace('href="en/"', f'href="{PATH}en/"').replace('href="favicon.png"', f'href="{PATH}favicon.png"') \
+       .replace('href="assets/', f'href="{PATH}assets/').replace('src="assets/', f'src="{PATH}assets/')
 (OUT / '404.html').write_text(nf, encoding='utf-8')
 (OUT / '.nojekyll').write_text('', encoding='utf-8')
 print('built', sorted(str(p.relative_to(OUT)) for p in OUT.rglob('*') if p.is_file()))
