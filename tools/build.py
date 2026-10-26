@@ -76,7 +76,8 @@ def layout(lang, page, title, description, body):
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#FBFAF9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0F0E0D" media="(prefers-color-scheme: dark)">
-<link rel="icon" type="image/png" href="{root}favicon.png">
+<link rel="icon" type="image/png" sizes="64x64" href="{root}favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="{root}assets/favicon-32.png">
 <link rel="apple-touch-icon" href="{root}assets/apple-touch-icon.png">
 <link rel="stylesheet" href="{root}assets/style.css">
 </head>
