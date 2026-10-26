@@ -5,6 +5,7 @@ from pathlib import Path
 OUT = Path(__file__).resolve().parent.parent
 BASE = 'https://excrapt.github.io/lichi/'
 EMAIL = 'lichisupport@gmail.com'
+INSTAGRAM = 'https://www.instagram.com/lichi_app/'
 UPDATED = {'uk': '26 жовтня 2026 р.', 'en': 'October 26, 2026'}
 EULA = 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
 
@@ -55,6 +56,7 @@ def layout(lang, page, title, description, body):
         f'<a href="{href(lang, "privacy", lang)}">{t["foot_privacy"]}</a>'
         f'<a href="{href(lang, "terms", lang)}">{t["foot_terms"]}</a>'
         f'<a href="mailto:{EMAIL}">{EMAIL}</a>'
+        f'<a href="{INSTAGRAM}">Instagram</a>'
     )
     return f'''<!doctype html>
 <html lang="{lang}">
@@ -101,6 +103,10 @@ def layout(lang, page, title, description, body):
 
 def mail(text=None):
     return f'<a href="mailto:{EMAIL}">{text or EMAIL}</a>'
+
+
+def insta():
+    return f'<a href="{INSTAGRAM}">@lichi_app</a>'
 
 
 # ---------------------------------------------------------------- home
@@ -168,7 +174,7 @@ def home(lang):
     <h2>Розробник</h2>
     <div class="dev">
       <img src="{root}assets/icon-96.png" alt="" width="64" height="64">
-      <p>Lichi створює Mark Rishko (Марк Рішко), Україна.<br>Питання, помилки в даних і пропозиції: {mail()}</p>
+      <p>Lichi створює Mark Rishko (Марк Рішко), Україна.<br>Питання, помилки в даних і пропозиції: {mail()}<br>Новини Lichi — в Instagram: {insta()}</p>
     </div>
   </div>
 </section>
@@ -234,7 +240,7 @@ def home(lang):
     <h2>Developer</h2>
     <div class="dev">
       <img src="{root}assets/icon-96.png" alt="" width="64" height="64">
-      <p>Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: {mail()}</p>
+      <p>Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: {mail()}<br>Lichi news on Instagram: {insta()}</p>
     </div>
   </div>
 </section>
@@ -529,7 +535,7 @@ def support(lang):
 <article class="doc"><div class="prose-wrap">
 <h1>Підтримка</h1>
 <p class="intro">Відповіді на часті питання — нижче. Якщо не знайшли свою, напишіть нам.</p>
-<div class="contact"><p>Email: {mail()}<br><span class="muted">Якщо питання про продукт, додайте штрихкод і фото упаковки (склад і таблицю поживності).</span></p></div>
+<div class="contact"><p>Email: {mail()}<br>Instagram: {insta()}<br><span class="muted">Якщо питання про продукт, додайте штрихкод і фото упаковки (склад і таблицю поживності).</span></p></div>
 
 <h2>Lichi PRO і безкоштовні скани</h2>
 {details(PRO_FAQ[lang])}
@@ -551,7 +557,7 @@ def support(lang):
 <article class="doc"><div class="prose-wrap">
 <h1>Support</h1>
 <p class="intro">Answers to common questions are below. If yours is not there, write to us.</p>
-<div class="contact"><p>Email: {mail()}<br><span class="muted">For a question about a product, include the barcode and a photo of the pack (ingredients and nutrition table).</span></p></div>
+<div class="contact"><p>Email: {mail()}<br>Instagram: {insta()}<br><span class="muted">For a question about a product, include the barcode and a photo of the pack (ingredients and nutrition table).</span></p></div>
 
 <h2>Lichi PRO and free scans</h2>
 {details(PRO_FAQ[lang])}

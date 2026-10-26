@@ -13,6 +13,9 @@
   --band-mid: #E4A11B;
   --band-good: #6AA534;
   --band-best: #1F9D63;
+  --glow: rgba(52, 184, 122, 0.55);
+  --glow-soft: rgba(52, 184, 122, 0.22);
+  --glow-shadow: rgba(31, 157, 99, 0.40);
   --round: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --text: system-ui, -apple-system, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color-scheme: light dark;
@@ -28,6 +31,9 @@
     --soft: #272421;
     --lychee: #F2566A;
     --link: #FF8A97;
+    --glow: rgba(52, 184, 122, 0.50);
+    --glow-soft: rgba(52, 184, 122, 0.18);
+    --glow-shadow: rgba(52, 184, 122, 0.38);
   }
 }
 
@@ -67,8 +73,10 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--lychee); outli
 .hero .wrap { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
 .hero h1 { font-family: var(--round); font-weight: 800; font-size: clamp(44px, 7vw, 76px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 18px; }
 .hero .lead { font-size: clamp(18px, 2.2vw, 21px); color: var(--muted); margin: 0 0 28px; max-width: 32em; }
-.hero-art { justify-self: center; width: min(100%, 380px); }
-.hero-art img { width: 100%; height: auto; display: block; filter: drop-shadow(0 24px 40px rgba(211, 40, 59, 0.18)); }
+/* The mascot smiles, so its glow takes the colour of a very good score (band «very_good»). */
+.hero-art { justify-self: center; width: min(100%, 380px); position: relative; }
+.hero-art::before { content: ""; position: absolute; inset: -4%; border-radius: 50%; background: radial-gradient(closest-side, var(--glow) 0%, var(--glow-soft) 55%, transparent 100%); }
+.hero-art img { position: relative; width: 100%; height: auto; display: block; filter: drop-shadow(0 22px 36px var(--glow-shadow)); }
 .soon { display: inline-block; font-family: var(--round); font-weight: 700; font-size: 16px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); }
 
 /* The 0–10 scale: the one bold thing on the page */
