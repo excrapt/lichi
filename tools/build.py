@@ -1,5 +1,6 @@
 """Builds the static Lichi site (Ukrainian at the root, English under /en/) for GitHub Pages."""
 import html
+import re
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent
@@ -50,7 +51,7 @@ def layout(lang, page, title, description, body):
     nav_html = ''.join(
         f'<a href="{href(lang, p, lang)}"{" aria-current=\"page\"" if p == page else ""}>{label}</a>' for p, label in nav
     )
-    nav_html += f'<a class="lang" href="{href(other, page, lang)}" hreflang="{other}" lang="{other}">{t["other_lang"]}</a>'
+    lang_html = f'<a class="lang" href="{href(other, page, lang)}" hreflang="{other}" lang="{other}">{t["other_lang"]}</a>'
     foot = (
         f'<a href="{href(lang, "support", lang)}">{t["foot_support"]}</a>'
         f'<a href="{href(lang, "privacy", lang)}">{t["foot_privacy"]}</a>'
@@ -80,12 +81,14 @@ def layout(lang, page, title, description, body):
 <link rel="icon" type="image/png" sizes="32x32" href="{root}assets/favicon-32.png">
 <link rel="apple-touch-icon" href="{root}assets/apple-touch-icon.png">
 <link rel="stylesheet" href="{root}assets/style.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<body class="page-{page}">
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="{href(lang, 'index', lang)}"><img src="{root}assets/icon-96.png" alt="" width="36" height="36">Lichi</a>
     <nav class="site-nav" aria-label="{'Розділи' if lang == 'uk' else 'Sections'}">{nav_html}</nav>
+    {lang_html}
   </div>
 </header>
 <main id="main">
@@ -97,6 +100,19 @@ def layout(lang, page, title, description, body):
     <nav aria-label="{'Документи' if lang == 'uk' else 'Documents'}">{foot}</nav>
   </div>
 </footer>
+<script>
+(function () {{
+  var head = document.querySelector('.site-head');
+  var onScroll = function () {{ head.classList.toggle('scrolled', window.scrollY > 8); }};
+  onScroll(); window.addEventListener('scroll', onScroll, {{ passive: true }});
+  var items = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) {{ items.forEach(function (el) {{ el.classList.add('in'); }}); return; }}
+  var io = new IntersectionObserver(function (entries) {{
+    entries.forEach(function (e) {{ if (e.isIntersecting) {{ e.target.classList.add('in'); io.unobserve(e.target); }} }});
+  }}, {{ threshold: 0.3 }});
+  items.forEach(function (el) {{ io.observe(el); }});
+}})();
+</script>
 </body>
 </html>
 '''
@@ -115,141 +131,258 @@ def insta(root):
 
 def home(lang):
     root = '' if lang == 'uk' else '../'
-    if lang == 'uk':
-        title = 'Lichi — сканер складу продуктів'
-        desc = 'Наведіть камеру на штрихкод — Lichi покаже оцінку складу від 0 до 10 і пояснить її простими словами.'
-        body = f'''
-<section class="hero">
+    c = {
+        'uk': dict(
+            title='Lichi — сканер складу продуктів',
+            desc='Наведіть камеру на штрихкод — Lichi покаже оцінку складу від 0 до 10 і пояснить її простими словами.',
+            h1='Що всередині продукту — простими словами',
+            lead='Наведіть камеру iPhone на штрихкод, і Lichi покаже оцінку складу від 0 до 10 та пояснить, що в ньому добре, а на що варто звернути увагу.',
+            soon='Незабаром в App Store',
+            scale_label='Шкала оцінки від 0 до 10: поганий, сумнівний, компромісний, хороший і дуже хороший склад. Приклад: 8,6 — дуже хороший склад',
+            marker='8,6',
+            scale_note='Приклад: 8,6 — дуже хороший склад',
+            mascot_alt='Лічі — маскот застосунку',
+            what_h='Що показує Lichi',
+            points=[
+                ('Оцінку від 0 до 10', ' — за поживністю й інгредієнтами, а не лише за калоріями.'),
+                ('Позитивне й негативне', ': що саме підняло чи опустило оцінку — цукор, сіль, насичені жири, клітковина, білок, фрукти й овочі, добавки.'),
+                ('Склад', ' з кольоровими позначками й коротким коментарем до інгредієнтів.'),
+                ('Алергени', ', якщо вони вказані у складі.'),
+                ('Поживність', ' на 100 г чи 100 мл.'),
+            ],
+            ex_cap='Приклад картки продукту',
+            ex_name='Гранола з горіхами',
+            ex_score='7,2', ex_band='Хороший склад',
+            ex_plus='Позитивне', ex_plus_items=['Цільне зерно', 'Горіхи', 'Клітковина'],
+            ex_minus='Негативне', ex_minus_items=['Цукор'],
+            ex_ingr='Склад', ex_ingr_items=[('green', 'Вівсяні пластівці'), ('amber', 'Мед'), ('green', 'Мигдаль'), ('blue', 'Кориця')],
+            db_num='70 000+', db_h='продуктів з українських магазинів',
+            db_p1='Власна база з фото. Якщо продукту в ній немає, Lichi шукає його у відкритій базі Open Food Facts.',
+            db_p2='Історія сканувань і «Збережене» лишаються на вашому телефоні. Акаунт не потрібен, реклами немає.',
+            pro_h='Безкоштовно і з Lichi PRO',
+            free_t='Безкоштовно', free_d='3 нові продукти на день, а після першого ще 5 сканів у подарунок.',
+            pro_t='Lichi PRO', pro_d='Скани без ліміту й пошук продуктів з оцінками. Місяць або рік; ціну App Store показує перед покупкою.',
+            pro_link='Умови підписки',
+            note='Оцінка Lichi описує сам продукт, а не ваш стан здоров’я. Це не медична порада. Якщо у вас алергії чи особлива дієта, завжди перевіряйте упаковку.',
+            dev_h='Розробник',
+            dev_p='Lichi створює Mark Rishko (Марк Рішко), Україна.<br>Питання, помилки в даних і пропозиції: ',
+            news='Новини Lichi:',
+            an_h='Як Lichi розбирає склад',
+            an_sub='Скануєте пачку — і бачите, що в складі корисне, на що варто звернути увагу, а що нейтральне.',
+            an_pack_alt='Пачка вівсяного батончика з шоколадом',
+            an_pack1='Вівсяний', an_pack2='батончик', an_pack3='з шоколадом',
+            an_score='4,1', an_band='Сумнівний склад',
+            an_good='Корисне', an_bad='Варто звернути увагу', an_neutral='Нейтрально',
+            an_items=[
+                ('good', 'top', 'Вівсяні пластівці', 'Цільне зерно: більше клітковини.'),
+                ('good', 'low', 'Фундук', 'Горіхи: корисні жири.'),
+                ('bad', 'top', 'Цукор — 24 г', 'На 100 г — багато для батончика.'),
+                ('bad', 'low', 'Пальмова олія', 'Додає насичених жирів.'),
+                ('neutral', 'up', 'Ароматизатор', 'Дає запах і смак; на поживну цінність не впливає.'),
+            ],
+            an_note='Ілюстрація: вигаданий продукт, щоб показати, як виглядає розбір.',
+        ),
+        'en': dict(
+            title='Lichi — food ingredient scanner',
+            desc='Point your camera at a barcode: Lichi gives the product a 0–10 ingredient score and explains it in plain words.',
+            h1='What’s inside a product, in plain words',
+            lead='Point your iPhone camera at a barcode, and Lichi gives the product a score from 0 to 10 and explains what is good in it and what to watch for.',
+            soon='Coming soon to the App Store',
+            scale_label='Score scale from 0 to 10: poor, questionable, compromise, good and very good composition. Example: 8.6 — very good composition',
+            marker='8.6',
+            scale_note='Example: 8.6 — very good composition',
+            mascot_alt='The Lichi mascot',
+            what_h='What Lichi shows',
+            points=[
+                ('A score from 0 to 10', ', based on nutrition and ingredients, not just calories.'),
+                ('Positive and negative', ': what raised or lowered the score — sugar, salt, saturated fat, fibre, protein, fruit and vegetables, additives.'),
+                ('Ingredients', ' with colour marks and short notes.'),
+                ('Allergens', ', when the ingredient list names them.'),
+                ('Nutrition', ' per 100 g or 100 ml.'),
+            ],
+            ex_cap='Example of a product card',
+            ex_name='Granola with nuts',
+            ex_score='7.2', ex_band='Good composition',
+            ex_plus='Positive', ex_plus_items=['Whole grain', 'Nuts', 'Fibre'],
+            ex_minus='Negative', ex_minus_items=['Sugar'],
+            ex_ingr='Ingredients', ex_ingr_items=[('green', 'Rolled oats'), ('amber', 'Honey'), ('green', 'Almonds'), ('blue', 'Cinnamon')],
+            db_num='70,000+', db_h='products from Ukrainian shops',
+            db_p1='Our own database, with photos. If a product is not there, Lichi looks it up in the open Open Food Facts database.',
+            db_p2='Your scan history and Saved products stay on your phone. No account needed, no ads.',
+            pro_h='Free and with Lichi PRO',
+            free_t='Free', free_d='3 new products a day, plus 5 gift scans after your first one.',
+            pro_t='Lichi PRO', pro_d='Unlimited scans and product search with scores. Monthly or yearly; the App Store shows the price before you buy.',
+            pro_link='Subscription terms',
+            note='Lichi’s score describes the product itself, not your health. It is not medical advice. If you have allergies or a special diet, always check the pack.',
+            dev_h='Developer',
+            dev_p='Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: ',
+            news='Lichi news:',
+            an_h='How Lichi reads a label',
+            an_sub='Scan the pack and see what in the ingredients is good, what to watch for, and what is neutral.',
+            an_pack_alt='A pack of an oat bar with chocolate',
+            an_pack1='Oat', an_pack2='bar', an_pack3='with chocolate',
+            an_score='4.1', an_band='Questionable composition',
+            an_good='Good', an_bad='Watch for', an_neutral='Neutral',
+            an_items=[
+                ('good', 'top', 'Rolled oats', 'Whole grain: more fibre.'),
+                ('good', 'low', 'Hazelnuts', 'Nuts: good fats.'),
+                ('bad', 'top', 'Sugar — 24 g', 'Per 100 g, a lot for a bar.'),
+                ('bad', 'low', 'Palm oil', 'Adds saturated fat.'),
+                ('neutral', 'up', 'Flavouring', 'Adds smell and taste; it doesn’t change the nutrition.'),
+            ],
+            an_note='Illustration: a made-up product, to show what the breakdown looks like.',
+        ),
+    }[lang]
+
+    points = ''.join(f'<li><b>{b}</b>{rest}</li>' for b, rest in c['points'])
+    plus = ''.join(f'<li style="--i:{i}">{x}</li>' for i, x in enumerate(c['ex_plus_items']))
+    minus = ''.join(f'<li style="--i:{i + 3}">{x}</li>' for i, x in enumerate(c['ex_minus_items']))
+    ingr = ''.join(f'<li style="--i:{i + 4}"><i class="dot {col}"></i>{x}</li>' for i, (col, x) in enumerate(c['ex_ingr_items']))
+
+    tags = {'good': c['an_good'], 'bad': c['an_bad'], 'neutral': c['an_neutral']}
+    arrows = {
+        'top': '<svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 8 C 30 8, 38 31, 66 31"/><path class="head" pathLength="1" d="M57 25 L66 31 L57 37"/></svg>',
+        'low': '<svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 32 C 30 32, 38 9, 66 9"/><path class="head" pathLength="1" d="M57 3 L66 9 L57 15"/></svg>',
+        'up': '<svg class="arw" viewBox="0 0 40 56" aria-hidden="true"><path pathLength="1" d="M20 54 L20 6"/><path class="head" pathLength="1" d="M13 14 L20 5 L27 14"/></svg>',
+    }
+
+    def call(i, kind, pos, name, note):
+        return (f'<li class="call {kind} {pos}" style="--i:{i}"><span class="tag">{tags[kind]}</span>'
+                f'<b>{name}</b><span class="call-note">{note}</span>{arrows[pos]}</li>')
+
+    items = c['an_items']
+    left = ''.join(call(i, *it) for i, it in enumerate(items) if it[0] == 'good')
+    right = ''.join(call(i, *it) for i, it in enumerate(items) if it[0] == 'bad')
+    bottom = ''.join(call(i, *it) for i, it in enumerate(items) if it[0] == 'neutral')
+    oats = ''.join(f'<ellipse cx="{x}" cy="{y}" rx="7" ry="4" transform="rotate({r} {x} {y})"/>'
+                   for x, y, r in [(22, 16, 20), (48, 30, -15), (76, 14, 30), (104, 34, 10), (126, 18, -25), (36, 40, 40), (92, 42, -35), (64, 24, 5), (118, 40, 25)])
+    bars = ''.join(f'<rect x="{x}" y="8" width="{w}" height="22" />' for x, w in [(8, 2), (12, 1), (15, 3), (20, 1), (23, 2), (27, 1), (30, 3), (35, 2), (39, 1), (42, 2), (46, 1), (49, 3), (54, 1), (56, 2)])
+    pack = f'''<svg class="pack-svg" viewBox="0 0 260 340" role="img" aria-label="{c['an_pack_alt']}">
+        <defs>
+          <linearGradient id="pk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6BE78"/><stop offset="1" stop-color="#DC7A33"/></linearGradient>
+          <linearGradient id="br" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E5A33"/><stop offset="1" stop-color="#5A3218"/></linearGradient>
+        </defs>
+        <ellipse cx="130" cy="328" rx="92" ry="8" fill="rgba(23,21,19,.14)"/>
+        <rect x="30" y="20" width="200" height="298" rx="20" fill="url(#pk)"/>
+        <path d="M30 40 Q30 20 50 20 H210 Q230 20 230 40 V58 H30 Z" fill="rgba(255,255,255,.2)"/>
+        <rect x="46" y="74" width="168" height="78" rx="14" fill="#FFF8F0"/>
+        <text x="130" y="106" text-anchor="middle" class="pk-t1">{c['an_pack1']}</text>
+        <text x="130" y="134" text-anchor="middle" class="pk-t1">{c['an_pack2']}</text>
+        <g transform="translate(58 172) rotate(-7 72 26)">
+          <rect width="144" height="54" rx="15" fill="url(#br)"/>
+          <rect x="6" y="5" width="132" height="16" rx="8" fill="rgba(255,255,255,.12)"/>
+          <g fill="#EBCB9C">{oats}</g>
+        </g>
+        <text x="130" y="262" text-anchor="middle" class="pk-t2">{c['an_pack3']}</text>
+        <g transform="translate(152 274)"><rect width="64" height="34" rx="6" fill="#fff"/><g fill="#171513">{bars}</g></g>
+      </svg>'''
+    anatomy = f'''
+<section class="block anatomy">
   <div class="wrap">
-    <div>
-      <h1>Що всередині продукту — простими словами</h1>
-      <p class="lead">Наведіть камеру iPhone на штрихкод, і Lichi покаже оцінку складу від 0 до 10 та пояснить, що в ньому добре, а на що варто звернути увагу.</p>
-      <span class="soon">Незабаром в App Store</span>
-      <div class="scale" role="img" aria-label="Шкала оцінки від 0 до 10: поганий, сумнівний, компромісний, хороший і дуже хороший склад">
-        <div class="scale-bar"><span class="poor"></span><span class="weak"></span><span class="mid"></span><span class="good"></span><span class="best"></span></div>
-        <div class="scale-nums"><span>0</span><span>10</span></div>
-        <p class="scale-note">Від поганого до дуже хорошого складу</p>
+    <h2>{c['an_h']}</h2>
+    <p class="sub">{c['an_sub']}</p>
+    <div class="anat" data-reveal>
+      <ul class="anat-side anat-left">{left}</ul>
+      <div class="anat-pack">
+        {pack}
+        <span class="scan-line" aria-hidden="true"></span>
+        <div class="pack-score"><span class="ring ring-weak" style="--score:41"><span>{c['an_score']}</span></span><span class="pack-band">{c['an_band']}</span></div>
       </div>
+      <ul class="anat-side anat-right">{right}</ul>
+      <ul class="anat-bottom">{bottom}</ul>
     </div>
-    <div class="hero-art">
-      <picture><source srcset="{root}assets/lichi.webp" type="image/webp"><img src="{root}assets/lichi.png" alt="Лічі — маскот застосунку" width="440" height="440"></picture>
-    </div>
-  </div>
-</section>
-
-<section class="block">
-  <div class="wrap cols">
-    <div>
-      <h2>Що показує Lichi</h2>
-      <ul class="points">
-        <li><b>Оцінку від 0 до 10</b> — за поживністю й інгредієнтами, а не лише за калоріями.</li>
-        <li><b>Позитивне й негативне</b>: що саме підняло чи опустило оцінку — цукор, сіль, насичені жири, клітковина, білок, фрукти й овочі, добавки.</li>
-        <li><b>Склад</b> з кольоровими позначками й коротким коментарем до інгредієнтів.</li>
-        <li><b>Алергени</b>, якщо вони вказані у складі.</li>
-        <li><b>Поживність</b> на 100 г чи 100 мл.</li>
-      </ul>
-    </div>
-    <div>
-      <h2>Українські продукти</h2>
-      <p>Власна база понад 70 000 продуктів з українських магазинів, з фото. Якщо продукту в ній немає, Lichi шукає його у відкритій базі Open Food Facts.</p>
-      <p>Історія сканувань і «Збережене» лишаються на вашому телефоні. Акаунт не потрібен, реклами немає.</p>
-    </div>
-  </div>
-</section>
-
-<section class="block">
-  <div class="wrap cols">
-    <div>
-      <h2>Безкоштовно і з Lichi PRO</h2>
-      <p>Безкоштовно — 3 нові продукти на день, а після першого ще 5 сканів у подарунок.</p>
-      <p>Lichi PRO — скани без ліміту й пошук продуктів з оцінками. Підписка на місяць або на рік; ціну App Store показує перед покупкою. <a href="terms.html#pro">Умови підписки</a></p>
-    </div>
-    <div>
-      <h2>Важливо</h2>
-      <p>Оцінка Lichi описує сам продукт, а не ваш стан здоров’я. Це не медична порада. Якщо у вас алергії чи особлива дієта, завжди перевіряйте упаковку.</p>
-    </div>
-  </div>
-</section>
-
-<section class="block">
-  <div class="wrap">
-    <h2>Розробник</h2>
-    <div class="dev">
-      <img src="{root}assets/icon-96.png" alt="" width="64" height="64">
-      <p>Lichi створює Mark Rishko (Марк Рішко), Україна.<br>Питання, помилки в даних і пропозиції: {mail()}</p>
-    </div>
-    <p class="social">Новини Lichi: {insta(root)}</p>
+    <p class="anat-note">{c['an_note']}</p>
   </div>
 </section>
 '''
-    else:
-        title = 'Lichi — food ingredient scanner'
-        desc = 'Point your camera at a barcode: Lichi gives the product a 0–10 ingredient score and explains it in plain words.'
-        body = f'''
+
+    body = f'''
 <section class="hero">
-  <div class="wrap">
-    <div>
-      <h1>What’s inside a product, in plain words</h1>
-      <p class="lead">Point your iPhone camera at a barcode, and Lichi gives the product a score from 0 to 10 and explains what is good in it and what to watch for.</p>
-      <span class="soon">Coming soon to the App Store</span>
-      <div class="scale" role="img" aria-label="Score scale from 0 to 10: poor, questionable, compromise, good and very good composition">
-        <div class="scale-bar"><span class="poor"></span><span class="weak"></span><span class="mid"></span><span class="good"></span><span class="best"></span></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1>{c['h1']}</h1>
+      <p class="lead">{c['lead']}</p>
+      <span class="soon">{c['soon']}</span>
+      <div class="scale" role="img" aria-label="{c['scale_label']}">
+        <div class="scale-track">
+          <div class="scale-bar"><span class="poor"></span><span class="weak"></span><span class="mid"></span><span class="good"></span><span class="best"></span></div>
+          <span class="marker" style="--at:86%"><b>{c['marker']}</b></span>
+        </div>
         <div class="scale-nums"><span>0</span><span>10</span></div>
-        <p class="scale-note">From poor to very good composition</p>
+        <p class="scale-note">{c['scale_note']}</p>
       </div>
     </div>
     <div class="hero-art">
-      <picture><source srcset="{root}assets/lichi.webp" type="image/webp"><img src="{root}assets/lichi.png" alt="The Lichi mascot" width="440" height="440"></picture>
+      <picture><source srcset="{root}assets/lichi.webp" type="image/webp"><img src="{root}assets/lichi.png" alt="{c['mascot_alt']}" width="440" height="440"></picture>
+      <span class="scan-line" aria-hidden="true"></span>
     </div>
   </div>
 </section>
 
-<section class="block">
-  <div class="wrap cols">
+<section class="block features">
+  <div class="wrap feat-grid">
     <div>
-      <h2>What Lichi shows</h2>
-      <ul class="points">
-        <li><b>A score from 0 to 10</b>, based on nutrition and ingredients, not just calories.</li>
-        <li><b>Positive and negative</b>: what raised or lowered the score — sugar, salt, saturated fat, fibre, protein, fruit and vegetables, additives.</li>
-        <li><b>Ingredients</b> with colour marks and short notes.</li>
-        <li><b>Allergens</b>, when the ingredient list names them.</li>
-        <li><b>Nutrition</b> per 100 g or 100 ml.</li>
-      </ul>
+      <h2>{c['what_h']}</h2>
+      <ul class="points">{points}</ul>
     </div>
-    <div>
-      <h2>Ukrainian products</h2>
-      <p>Our own database of over 70,000 products from Ukrainian shops, with photos. If a product is not there, Lichi looks it up in the open Open Food Facts database.</p>
-      <p>Your scan history and Saved products stay on your phone. No account needed, no ads.</p>
-    </div>
+    <figure class="example" data-reveal>
+      <figcaption>{c['ex_cap']}</figcaption>
+      <div class="ex-card">
+        <div class="ex-top">
+          <div class="ring" style="--score:72"><span>{c['ex_score']}</span></div>
+          <div>
+            <p class="ex-name">{c['ex_name']}</p>
+            <p class="ex-band">{c['ex_band']}</p>
+          </div>
+        </div>
+        <p class="ex-h">{c['ex_plus']}</p>
+        <ul class="ex-list plus">{plus}</ul>
+        <p class="ex-h">{c['ex_minus']}</p>
+        <ul class="ex-list minus">{minus}</ul>
+        <p class="ex-h">{c['ex_ingr']}</p>
+        <ul class="ex-ingr">{ingr}</ul>
+      </div>
+    </figure>
   </div>
 </section>
 
-<section class="block">
-  <div class="wrap cols">
-    <div>
-      <h2>Free and with Lichi PRO</h2>
-      <p>Free: 3 new products a day, plus 5 gift scans after your first one.</p>
-      <p>Lichi PRO: unlimited scans and product search with scores. Monthly or yearly subscription; the App Store shows the price before you buy. <a href="terms.html#pro">Subscription terms</a></p>
-    </div>
-    <div>
-      <h2>Good to know</h2>
-      <p>Lichi’s score describes the product itself, not your health. It is not medical advice. If you have allergies or a special diet, always check the pack.</p>
-    </div>
-  </div>
-</section>
-
-<section class="block">
+{anatomy}
+<section class="block sheet-block">
   <div class="wrap">
-    <h2>Developer</h2>
+    <div class="sheet">
+      <div class="sheet-db">
+        <p class="big-num">{c['db_num']}</p>
+        <h2 class="num-h">{c['db_h']}</h2>
+        <p>{c['db_p1']}</p>
+        <p>{c['db_p2']}</p>
+      </div>
+      <div class="sheet-pro">
+        <h2>{c['pro_h']}</h2>
+        <dl class="plans">
+          <div><dt>{c['free_t']}</dt><dd>{c['free_d']}</dd></div>
+          <div class="pro"><dt>{c['pro_t']}</dt><dd>{c['pro_d']}</dd></div>
+        </dl>
+        <p><a href="terms.html#pro">{c['pro_link']}</a></p>
+      </div>
+    </div>
+    <p class="note">{c['note']}</p>
+  </div>
+</section>
+
+<section class="block dev-block">
+  <div class="wrap">
+    <h2>{c['dev_h']}</h2>
     <div class="dev">
       <img src="{root}assets/icon-96.png" alt="" width="64" height="64">
-      <p>Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: {mail()}</p>
+      <div>
+        <p>{c['dev_p']}{mail()}</p>
+        <p class="social">{c['news']} {insta(root)}</p>
+      </div>
     </div>
-    <p class="social">Lichi news: {insta(root)}</p>
   </div>
 </section>
 '''
-    return title, desc, body
+    return c['title'], c['desc'], body
 
 
 # ---------------------------------------------------------------- privacy
@@ -580,6 +713,27 @@ def support(lang):
     return title, desc, body
 
 
+TOC_LABEL = {'uk': 'На цій сторінці', 'en': 'On this page'}
+
+
+def with_toc(lang, body):
+    """Gives every h2 an id and adds a contents list beside the text (shown on wide screens)."""
+    n = 0
+
+    def number(m):
+        nonlocal n
+        n += 1
+        return m.group(0) if m.group(1) else f'<h2 id="s{n}">{m.group(3)}</h2>'
+
+    body = re.sub(r'<h2( id="([^"]+)")?>(.*?)</h2>', number, body)
+    items = re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', body)
+    toc = (f'<nav class="toc" aria-label="{TOC_LABEL[lang]}"><p class="toc-h">{TOC_LABEL[lang]}</p><ol>'
+           + ''.join(f'<li><a href="#{i}">{t}</a></li>' for i, t in items) + '</ol></nav>')
+    body = body.replace('<article class="doc"><div class="prose-wrap">',
+                        f'<article class="doc has-toc"><div class="doc-grid">{toc}<div class="prose">', 1)
+    return body.replace('</div></article>', '</div></div></article>', 1)
+
+
 BUILDERS = {'index': home, 'privacy': privacy, 'terms': terms, 'support': support}
 
 for lang in ('uk', 'en'):
@@ -587,6 +741,8 @@ for lang in ('uk', 'en'):
     folder.mkdir(parents=True, exist_ok=True)
     for page in PAGES:
         title, desc, body = BUILDERS[page](lang)
+        if page in ('privacy', 'terms'):
+            body = with_toc(lang, body)
         name = 'index.html' if page == 'index' else f'{page}.html'
         (folder / name).write_text(layout(lang, page, title, desc, body), encoding='utf-8')
 

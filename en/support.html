@@ -20,12 +20,14 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<body class="page-support">
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="./"><img src="../assets/icon-96.png" alt="" width="36" height="36">Lichi</a>
-    <nav class="site-nav" aria-label="Sections"><a href="support.html" aria-current="page">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a class="lang" href="../support.html" hreflang="uk" lang="uk">Українська</a></nav>
+    <nav class="site-nav" aria-label="Sections"><a href="support.html" aria-current="page">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+    <a class="lang" href="../support.html" hreflang="uk" lang="uk">Українська</a>
   </div>
 </header>
 <main id="main">
@@ -55,5 +57,18 @@
     <nav aria-label="Documents"><a href="support.html">Support</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a><a class="ig-only" href="https://www.instagram.com/lichi_app/"><img src="../assets/instagram.png" alt="Instagram @lichi_app" width="24" height="24"></a></nav>
   </div>
 </footer>
+<script>
+(function () {
+  var head = document.querySelector('.site-head');
+  var onScroll = function () { head.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  var items = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  items.forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>

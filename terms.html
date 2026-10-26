@@ -20,33 +20,35 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/style.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<body class="page-terms">
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="./"><img src="assets/icon-96.png" alt="" width="36" height="36">Lichi</a>
-    <nav class="site-nav" aria-label="Розділи"><a href="support.html">Підтримка</a><a href="privacy.html">Конфіденційність</a><a href="terms.html" aria-current="page">Умови</a><a class="lang" href="en/terms.html" hreflang="en" lang="en">English</a></nav>
+    <nav class="site-nav" aria-label="Розділи"><a href="support.html">Підтримка</a><a href="privacy.html">Конфіденційність</a><a href="terms.html" aria-current="page">Умови</a></nav>
+    <a class="lang" href="en/terms.html" hreflang="en" lang="en">English</a>
   </div>
 </header>
 <main id="main">
 
-<article class="doc"><div class="prose-wrap">
+<article class="doc has-toc"><div class="doc-grid"><nav class="toc" aria-label="На цій сторінці"><p class="toc-h">На цій сторінці</p><ol><li><a href="#s1">Оцінка 0–10</a></li><li><a href="#s2">Чим оцінка не є</a></li><li><a href="#s3">Зовнішні дані</a></li><li><a href="#s4">Упаковка</a></li><li><a href="#s5">Ваш вибір</a></li><li><a href="#s6">Медичне застереження</a></li><li><a href="#pro">Lichi PRO</a></li><li><a href="#s8">Контакти</a></li></ol></nav><div class="prose">
 <h1>Умови використання</h1>
 <p class="updated">Оновлено 26 жовтня 2026 р.</p>
 <p class="intro">Ці умови стосуються застосунку Lichi для iPhone. Користування застосунком також регулюють <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Стандартні умови ліцензії Apple (EULA)</a>.</p>
 
-<h2>Оцінка 0–10</h2>
+<h2 id="s1">Оцінка 0–10</h2>
 <p>Lichi допомагає швидко розібратися у складі продукту та показує власну оцінку від 0 до 10.</p>
-<h2>Чим оцінка не є</h2>
+<h2 id="s2">Чим оцінка не є</h2>
 <p>Ця оцінка не є Nutri-Score, медичною рекомендацією або офіційною сертифікацією продукту.</p>
-<h2>Зовнішні дані</h2>
+<h2 id="s3">Зовнішні дані</h2>
 <p>Інформація про продукти може надходити з зовнішніх баз даних, тому іноді вона може бути неповною або неточною. Частина даних — з Open Food Facts за ліцензією <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License (ODbL)</a>.</p>
-<h2>Упаковка</h2>
+<h2 id="s4">Упаковка</h2>
 <p>Перед покупкою чи вживанням продукту перевіряйте актуальну інформацію на його упаковці.</p>
-<h2>Ваш вибір</h2>
+<h2 id="s5">Ваш вибір</h2>
 <p>Остаточний вибір завжди залишається за вами.</p>
 
-<h2>Медичне застереження</h2>
+<h2 id="s6">Медичне застереження</h2>
 <ul>
 <li>Оцінка Lichi не є діагнозом, лікуванням або персональною медичною рекомендацією.</li>
 <li>Вона описує сам продукт — його склад і поживність, а не ваш стан здоров’я чи індивідуальні потреби.</li>
@@ -58,9 +60,9 @@
 <p>Lichi PRO — підписка на місяць або на рік, що поновлюється автоматично. Ціну App Store показує перед покупкою. Якщо Apple дає вам пробний тиждень, першу оплату знімуть з Apple ID після нього, далі — на початку кожного терміну, поки ви не скасуєте.</p>
 <p>Скасувати можна в налаштуваннях Apple ID щонайменше за 24 години до кінця пробного тижня чи поточного терміну; PRO працює до кінця оплаченого. Без PRO — 3 нові продукти на день і 5 сканів у подарунок після першого.</p>
 
-<h2>Контакти</h2>
+<h2 id="s8">Контакти</h2>
 <p>Mark Rishko (Марк Рішко), Україна — <a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a></p>
-</div></article>
+</div></div></article>
 
 </main>
 <footer class="site-foot">
@@ -69,5 +71,18 @@
     <nav aria-label="Документи"><a href="support.html">Підтримка</a><a href="privacy.html">Політика конфіденційності</a><a href="terms.html">Умови використання</a><a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a><a class="ig-only" href="https://www.instagram.com/lichi_app/"><img src="assets/instagram.png" alt="Instagram @lichi_app" width="24" height="24"></a></nav>
   </div>
 </footer>
+<script>
+(function () {
+  var head = document.querySelector('.site-head');
+  var onScroll = function () { head.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  var items = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  items.forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>

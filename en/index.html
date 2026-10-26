@@ -20,76 +20,136 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<body class="page-index">
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="./"><img src="../assets/icon-96.png" alt="" width="36" height="36">Lichi</a>
-    <nav class="site-nav" aria-label="Sections"><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a class="lang" href="../" hreflang="uk" lang="uk">Українська</a></nav>
+    <nav class="site-nav" aria-label="Sections"><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+    <a class="lang" href="../" hreflang="uk" lang="uk">Українська</a>
   </div>
 </header>
 <main id="main">
 
 <section class="hero">
-  <div class="wrap">
-    <div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
       <h1>What’s inside a product, in plain words</h1>
       <p class="lead">Point your iPhone camera at a barcode, and Lichi gives the product a score from 0 to 10 and explains what is good in it and what to watch for.</p>
       <span class="soon">Coming soon to the App Store</span>
-      <div class="scale" role="img" aria-label="Score scale from 0 to 10: poor, questionable, compromise, good and very good composition">
-        <div class="scale-bar"><span class="poor"></span><span class="weak"></span><span class="mid"></span><span class="good"></span><span class="best"></span></div>
+      <div class="scale" role="img" aria-label="Score scale from 0 to 10: poor, questionable, compromise, good and very good composition. Example: 8.6 — very good composition">
+        <div class="scale-track">
+          <div class="scale-bar"><span class="poor"></span><span class="weak"></span><span class="mid"></span><span class="good"></span><span class="best"></span></div>
+          <span class="marker" style="--at:86%"><b>8.6</b></span>
+        </div>
         <div class="scale-nums"><span>0</span><span>10</span></div>
-        <p class="scale-note">From poor to very good composition</p>
+        <p class="scale-note">Example: 8.6 — very good composition</p>
       </div>
     </div>
     <div class="hero-art">
       <picture><source srcset="../assets/lichi.webp" type="image/webp"><img src="../assets/lichi.png" alt="The Lichi mascot" width="440" height="440"></picture>
+      <span class="scan-line" aria-hidden="true"></span>
     </div>
   </div>
 </section>
 
-<section class="block">
-  <div class="wrap cols">
+<section class="block features">
+  <div class="wrap feat-grid">
     <div>
       <h2>What Lichi shows</h2>
-      <ul class="points">
-        <li><b>A score from 0 to 10</b>, based on nutrition and ingredients, not just calories.</li>
-        <li><b>Positive and negative</b>: what raised or lowered the score — sugar, salt, saturated fat, fibre, protein, fruit and vegetables, additives.</li>
-        <li><b>Ingredients</b> with colour marks and short notes.</li>
-        <li><b>Allergens</b>, when the ingredient list names them.</li>
-        <li><b>Nutrition</b> per 100 g or 100 ml.</li>
-      </ul>
+      <ul class="points"><li><b>A score from 0 to 10</b>, based on nutrition and ingredients, not just calories.</li><li><b>Positive and negative</b>: what raised or lowered the score — sugar, salt, saturated fat, fibre, protein, fruit and vegetables, additives.</li><li><b>Ingredients</b> with colour marks and short notes.</li><li><b>Allergens</b>, when the ingredient list names them.</li><li><b>Nutrition</b> per 100 g or 100 ml.</li></ul>
     </div>
-    <div>
-      <h2>Ukrainian products</h2>
-      <p>Our own database of over 70,000 products from Ukrainian shops, with photos. If a product is not there, Lichi looks it up in the open Open Food Facts database.</p>
-      <p>Your scan history and Saved products stay on your phone. No account needed, no ads.</p>
-    </div>
+    <figure class="example" data-reveal>
+      <figcaption>Example of a product card</figcaption>
+      <div class="ex-card">
+        <div class="ex-top">
+          <div class="ring" style="--score:72"><span>7.2</span></div>
+          <div>
+            <p class="ex-name">Granola with nuts</p>
+            <p class="ex-band">Good composition</p>
+          </div>
+        </div>
+        <p class="ex-h">Positive</p>
+        <ul class="ex-list plus"><li style="--i:0">Whole grain</li><li style="--i:1">Nuts</li><li style="--i:2">Fibre</li></ul>
+        <p class="ex-h">Negative</p>
+        <ul class="ex-list minus"><li style="--i:3">Sugar</li></ul>
+        <p class="ex-h">Ingredients</p>
+        <ul class="ex-ingr"><li style="--i:4"><i class="dot green"></i>Rolled oats</li><li style="--i:5"><i class="dot amber"></i>Honey</li><li style="--i:6"><i class="dot green"></i>Almonds</li><li style="--i:7"><i class="dot blue"></i>Cinnamon</li></ul>
+      </div>
+    </figure>
   </div>
 </section>
 
-<section class="block">
-  <div class="wrap cols">
-    <div>
-      <h2>Free and with Lichi PRO</h2>
-      <p>Free: 3 new products a day, plus 5 gift scans after your first one.</p>
-      <p>Lichi PRO: unlimited scans and product search with scores. Monthly or yearly subscription; the App Store shows the price before you buy. <a href="terms.html#pro">Subscription terms</a></p>
+
+<section class="block anatomy">
+  <div class="wrap">
+    <h2>How Lichi reads a label</h2>
+    <p class="sub">Scan the pack and see what in the ingredients is good, what to watch for, and what is neutral.</p>
+    <div class="anat" data-reveal>
+      <ul class="anat-side anat-left"><li class="call good top" style="--i:0"><span class="tag">Good</span><b>Rolled oats</b><span class="call-note">Whole grain: more fibre.</span><svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 8 C 30 8, 38 31, 66 31"/><path class="head" pathLength="1" d="M57 25 L66 31 L57 37"/></svg></li><li class="call good low" style="--i:1"><span class="tag">Good</span><b>Hazelnuts</b><span class="call-note">Nuts: good fats.</span><svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 32 C 30 32, 38 9, 66 9"/><path class="head" pathLength="1" d="M57 3 L66 9 L57 15"/></svg></li></ul>
+      <div class="anat-pack">
+        <svg class="pack-svg" viewBox="0 0 260 340" role="img" aria-label="A pack of an oat bar with chocolate">
+        <defs>
+          <linearGradient id="pk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6BE78"/><stop offset="1" stop-color="#DC7A33"/></linearGradient>
+          <linearGradient id="br" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E5A33"/><stop offset="1" stop-color="#5A3218"/></linearGradient>
+        </defs>
+        <ellipse cx="130" cy="328" rx="92" ry="8" fill="rgba(23,21,19,.14)"/>
+        <rect x="30" y="20" width="200" height="298" rx="20" fill="url(#pk)"/>
+        <path d="M30 40 Q30 20 50 20 H210 Q230 20 230 40 V58 H30 Z" fill="rgba(255,255,255,.2)"/>
+        <rect x="46" y="74" width="168" height="78" rx="14" fill="#FFF8F0"/>
+        <text x="130" y="106" text-anchor="middle" class="pk-t1">Oat</text>
+        <text x="130" y="134" text-anchor="middle" class="pk-t1">bar</text>
+        <g transform="translate(58 172) rotate(-7 72 26)">
+          <rect width="144" height="54" rx="15" fill="url(#br)"/>
+          <rect x="6" y="5" width="132" height="16" rx="8" fill="rgba(255,255,255,.12)"/>
+          <g fill="#EBCB9C"><ellipse cx="22" cy="16" rx="7" ry="4" transform="rotate(20 22 16)"/><ellipse cx="48" cy="30" rx="7" ry="4" transform="rotate(-15 48 30)"/><ellipse cx="76" cy="14" rx="7" ry="4" transform="rotate(30 76 14)"/><ellipse cx="104" cy="34" rx="7" ry="4" transform="rotate(10 104 34)"/><ellipse cx="126" cy="18" rx="7" ry="4" transform="rotate(-25 126 18)"/><ellipse cx="36" cy="40" rx="7" ry="4" transform="rotate(40 36 40)"/><ellipse cx="92" cy="42" rx="7" ry="4" transform="rotate(-35 92 42)"/><ellipse cx="64" cy="24" rx="7" ry="4" transform="rotate(5 64 24)"/><ellipse cx="118" cy="40" rx="7" ry="4" transform="rotate(25 118 40)"/></g>
+        </g>
+        <text x="130" y="262" text-anchor="middle" class="pk-t2">with chocolate</text>
+        <g transform="translate(152 274)"><rect width="64" height="34" rx="6" fill="#fff"/><g fill="#171513"><rect x="8" y="8" width="2" height="22" /><rect x="12" y="8" width="1" height="22" /><rect x="15" y="8" width="3" height="22" /><rect x="20" y="8" width="1" height="22" /><rect x="23" y="8" width="2" height="22" /><rect x="27" y="8" width="1" height="22" /><rect x="30" y="8" width="3" height="22" /><rect x="35" y="8" width="2" height="22" /><rect x="39" y="8" width="1" height="22" /><rect x="42" y="8" width="2" height="22" /><rect x="46" y="8" width="1" height="22" /><rect x="49" y="8" width="3" height="22" /><rect x="54" y="8" width="1" height="22" /><rect x="56" y="8" width="2" height="22" /></g></g>
+      </svg>
+        <span class="scan-line" aria-hidden="true"></span>
+        <div class="pack-score"><span class="ring ring-weak" style="--score:41"><span>4.1</span></span><span class="pack-band">Questionable composition</span></div>
+      </div>
+      <ul class="anat-side anat-right"><li class="call bad top" style="--i:2"><span class="tag">Watch for</span><b>Sugar — 24 g</b><span class="call-note">Per 100 g, a lot for a bar.</span><svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 8 C 30 8, 38 31, 66 31"/><path class="head" pathLength="1" d="M57 25 L66 31 L57 37"/></svg></li><li class="call bad low" style="--i:3"><span class="tag">Watch for</span><b>Palm oil</b><span class="call-note">Adds saturated fat.</span><svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 32 C 30 32, 38 9, 66 9"/><path class="head" pathLength="1" d="M57 3 L66 9 L57 15"/></svg></li></ul>
+      <ul class="anat-bottom"><li class="call neutral up" style="--i:4"><span class="tag">Neutral</span><b>Flavouring</b><span class="call-note">Adds smell and taste; it doesn’t change the nutrition.</span><svg class="arw" viewBox="0 0 40 56" aria-hidden="true"><path pathLength="1" d="M20 54 L20 6"/><path class="head" pathLength="1" d="M13 14 L20 5 L27 14"/></svg></li></ul>
     </div>
-    <div>
-      <h2>Good to know</h2>
-      <p>Lichi’s score describes the product itself, not your health. It is not medical advice. If you have allergies or a special diet, always check the pack.</p>
-    </div>
+    <p class="anat-note">Illustration: a made-up product, to show what the breakdown looks like.</p>
   </div>
 </section>
 
-<section class="block">
+<section class="block sheet-block">
+  <div class="wrap">
+    <div class="sheet">
+      <div class="sheet-db">
+        <p class="big-num">70,000+</p>
+        <h2 class="num-h">products from Ukrainian shops</h2>
+        <p>Our own database, with photos. If a product is not there, Lichi looks it up in the open Open Food Facts database.</p>
+        <p>Your scan history and Saved products stay on your phone. No account needed, no ads.</p>
+      </div>
+      <div class="sheet-pro">
+        <h2>Free and with Lichi PRO</h2>
+        <dl class="plans">
+          <div><dt>Free</dt><dd>3 new products a day, plus 5 gift scans after your first one.</dd></div>
+          <div class="pro"><dt>Lichi PRO</dt><dd>Unlimited scans and product search with scores. Monthly or yearly; the App Store shows the price before you buy.</dd></div>
+        </dl>
+        <p><a href="terms.html#pro">Subscription terms</a></p>
+      </div>
+    </div>
+    <p class="note">Lichi’s score describes the product itself, not your health. It is not medical advice. If you have allergies or a special diet, always check the pack.</p>
+  </div>
+</section>
+
+<section class="block dev-block">
   <div class="wrap">
     <h2>Developer</h2>
     <div class="dev">
       <img src="../assets/icon-96.png" alt="" width="64" height="64">
-      <p>Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: <a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a></p>
+      <div>
+        <p>Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: <a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a></p>
+        <p class="social">Lichi news: <a class="ig" href="https://www.instagram.com/lichi_app/"><img src="../assets/instagram.png" alt="Instagram" width="22" height="22"><span>@lichi_app</span></a></p>
+      </div>
     </div>
-    <p class="social">Lichi news: <a class="ig" href="https://www.instagram.com/lichi_app/"><img src="../assets/instagram.png" alt="Instagram" width="22" height="22"><span>@lichi_app</span></a></p>
   </div>
 </section>
 
@@ -100,5 +160,18 @@
     <nav aria-label="Documents"><a href="support.html">Support</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a><a class="ig-only" href="https://www.instagram.com/lichi_app/"><img src="../assets/instagram.png" alt="Instagram @lichi_app" width="24" height="24"></a></nav>
   </div>
 </footer>
+<script>
+(function () {
+  var head = document.querySelector('.site-head');
+  var onScroll = function () { head.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  var items = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  items.forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>
