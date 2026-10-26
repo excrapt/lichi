@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Terms of Use — Lichi</title>
 <meta name="description" content="Terms of use of the Lichi app and the Lichi PRO subscription.">
@@ -71,18 +73,6 @@
     <nav aria-label="Documents"><a href="support.html">Support</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a><a class="ig-only" href="https://www.instagram.com/lichi_app/"><img src="../assets/instagram.png" alt="Instagram @lichi_app" width="24" height="24"></a></nav>
   </div>
 </footer>
-<script>
-(function () {
-  var head = document.querySelector('.site-head');
-  var onScroll = function () { head.classList.toggle('scrolled', window.scrollY > 8); };
-  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
-  var items = document.querySelectorAll('[data-reveal]');
-  if (!('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('in'); }); return; }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0, rootMargin: '0px 0px 12% 0px' });
-  items.forEach(function (el) { io.observe(el); });
-})();
-</script>
+<script src="../assets/site.js" defer></script>
 </body>
 </html>

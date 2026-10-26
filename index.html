@@ -2,6 +2,8 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lichi — сканер складу продуктів</title>
 <meta name="description" content="Наведіть камеру на штрихкод — Lichi покаже оцінку складу від 0 до 10 і пояснить її простими словами.">
@@ -107,7 +109,6 @@
         <text x="130" y="262" text-anchor="middle" class="pk-t2">з шоколадом</text>
         <g transform="translate(152 274)"><rect width="64" height="34" rx="6" fill="#fff"/><g fill="#171513"><rect x="8" y="8" width="2" height="22" /><rect x="12" y="8" width="1" height="22" /><rect x="15" y="8" width="3" height="22" /><rect x="20" y="8" width="1" height="22" /><rect x="23" y="8" width="2" height="22" /><rect x="27" y="8" width="1" height="22" /><rect x="30" y="8" width="3" height="22" /><rect x="35" y="8" width="2" height="22" /><rect x="39" y="8" width="1" height="22" /><rect x="42" y="8" width="2" height="22" /><rect x="46" y="8" width="1" height="22" /><rect x="49" y="8" width="3" height="22" /><rect x="54" y="8" width="1" height="22" /><rect x="56" y="8" width="2" height="22" /></g></g>
       </svg>
-        <span class="scan-line" aria-hidden="true"></span>
         <div class="pack-score"><span class="ring ring-weak" style="--score:41"><span>4,1</span></span><span class="pack-band">Сумнівний склад</span></div>
       </div>
       <ul class="anat-side anat-right"><li class="call bad top" style="--i:2"><span class="tag">Варто звернути увагу</span><b>Цукор — 24 г</b><span class="call-note">На 100 г — багато для батончика.</span><svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 8 C 30 8, 38 31, 66 31"/><path class="head" pathLength="1" d="M57 25 L66 31 L57 37"/></svg></li><li class="call bad low" style="--i:3"><span class="tag">Варто звернути увагу</span><b>Пальмова олія</b><span class="call-note">Додає насичених жирів.</span><svg class="arw" viewBox="0 0 72 40" aria-hidden="true"><path pathLength="1" d="M2 32 C 30 32, 38 9, 66 9"/><path class="head" pathLength="1" d="M57 3 L66 9 L57 15"/></svg></li></ul>
@@ -159,18 +160,6 @@
     <nav aria-label="Документи"><a href="support.html">Підтримка</a><a href="privacy.html">Політика конфіденційності</a><a href="terms.html">Умови використання</a><a href="mailto:lichisupport@gmail.com">lichisupport@gmail.com</a><a class="ig-only" href="https://www.instagram.com/lichi_app/"><img src="assets/instagram.png" alt="Instagram @lichi_app" width="24" height="24"></a></nav>
   </div>
 </footer>
-<script>
-(function () {
-  var head = document.querySelector('.site-head');
-  var onScroll = function () { head.classList.toggle('scrolled', window.scrollY > 8); };
-  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
-  var items = document.querySelectorAll('[data-reveal]');
-  if (!('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('in'); }); return; }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0, rootMargin: '0px 0px 12% 0px' });
-  items.forEach(function (el) { io.observe(el); });
-})();
-</script>
+<script src="assets/site.js" defer></script>
 </body>
 </html>

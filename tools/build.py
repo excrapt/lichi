@@ -1,4 +1,6 @@
 """Builds the static Lichi site (Ukrainian at the root, English under /en/) for GitHub Pages."""
+import base64
+import hashlib
 import html
 import re
 from pathlib import Path
@@ -27,6 +29,18 @@ T = {
 }
 
 PAGES = ['index', 'privacy', 'terms', 'support']
+
+# Security. GitHub Pages cannot send response headers, so the policy goes in a <meta> tag: only this site's own files,
+# no outside scripts, no forms, no plugins, nothing loaded over plain http. The one inline script (sets the `js` class
+# before first paint) is allowed by its hash; everything else lives in assets/site.js.
+HEAD_JS = "document.documentElement.classList.add('js')"
+HEAD_JS_HASH = base64.b64encode(hashlib.sha256(HEAD_JS.encode()).digest()).decode()
+CSP = ("default-src 'self'; "
+       f"script-src 'self' 'sha256-{HEAD_JS_HASH}'; "
+       "style-src 'self' 'unsafe-inline'; "  # style="--i:0" attributes on the animated items
+       "img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; "
+       "frame-src 'none'; worker-src 'none'; manifest-src 'self'; base-uri 'none'; form-action 'none'; "
+       "upgrade-insecure-requests")
 
 
 def href(lang, page, from_lang):
@@ -64,6 +78,8 @@ def layout(lang, page, title, description, body):
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="{CSP}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(description)}">
@@ -82,7 +98,7 @@ def layout(lang, page, title, description, body):
 <link rel="icon" type="image/png" sizes="32x32" href="{root}assets/favicon-32.png">
 <link rel="apple-touch-icon" href="{root}assets/apple-touch-icon.png">
 <link rel="stylesheet" href="{root}assets/style.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>{HEAD_JS}</script>
 </head>
 <body class="page-{page}">
 <header class="site-head">
@@ -101,19 +117,7 @@ def layout(lang, page, title, description, body):
     <nav aria-label="{'Документи' if lang == 'uk' else 'Documents'}">{foot}</nav>
   </div>
 </footer>
-<script>
-(function () {{
-  var head = document.querySelector('.site-head');
-  var onScroll = function () {{ head.classList.toggle('scrolled', window.scrollY > 8); }};
-  onScroll(); window.addEventListener('scroll', onScroll, {{ passive: true }});
-  var items = document.querySelectorAll('[data-reveal]');
-  if (!('IntersectionObserver' in window)) {{ items.forEach(function (el) {{ el.classList.add('in'); }}); return; }}
-  var io = new IntersectionObserver(function (entries) {{
-    entries.forEach(function (e) {{ if (e.isIntersecting) {{ e.target.classList.add('in'); io.unobserve(e.target); }} }});
-  }}, {{ threshold: 0, rootMargin: '0px 0px 12% 0px' }});
-  items.forEach(function (el) {{ io.observe(el); }});
-}})();
-</script>
+<script src="{root}assets/site.js" defer></script>
 </body>
 </html>
 '''
@@ -286,7 +290,6 @@ def home(lang):
       <ul class="anat-side anat-left">{left}</ul>
       <div class="anat-pack">
         {pack}
-        <span class="scan-line" aria-hidden="true"></span>
         <div class="pack-score"><span class="ring ring-weak" style="--score:41"><span>{c['an_score']}</span></span><span class="pack-band">{c['an_band']}</span></div>
       </div>
       <ul class="anat-side anat-right">{right}</ul>
@@ -761,4 +764,9 @@ nf = nf.replace('href="./"', f'href="{PATH}"').replace('href="support.html"', f'
        .replace('href="assets/', f'href="{PATH}assets/').replace('src="assets/', f'src="{PATH}assets/')
 (OUT / '404.html').write_text(nf, encoding='utf-8')
 (OUT / '.nojekyll').write_text('', encoding='utf-8')
+# Where to report a security problem (RFC 9116).
+(OUT / '.well-known').mkdir(exist_ok=True)
+(OUT / '.well-known' / 'security.txt').write_text(
+    f'Contact: mailto:{EMAIL}\nExpires: 2027-10-26T00:00:00.000Z\nPreferred-Languages: uk, en\nCanonical: {BASE}.well-known/security.txt\n',
+    encoding='utf-8')
 print('built', sorted(str(p.relative_to(OUT)) for p in OUT.rglob('*') if p.is_file()))
