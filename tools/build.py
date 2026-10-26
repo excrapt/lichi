@@ -56,7 +56,7 @@ def layout(lang, page, title, description, body):
         f'<a href="{href(lang, "privacy", lang)}">{t["foot_privacy"]}</a>'
         f'<a href="{href(lang, "terms", lang)}">{t["foot_terms"]}</a>'
         f'<a href="mailto:{EMAIL}">{EMAIL}</a>'
-        f'<a href="{INSTAGRAM}">Instagram</a>'
+        f'<a class="ig-only" href="{INSTAGRAM}"><img src="{root}assets/instagram.png" alt="Instagram @lichi_app" width="24" height="24"></a>'
     )
     return f'''<!doctype html>
 <html lang="{lang}">
@@ -106,8 +106,9 @@ def mail(text=None):
     return f'<a href="mailto:{EMAIL}">{text or EMAIL}</a>'
 
 
-def insta():
-    return f'<a href="{INSTAGRAM}">@lichi_app</a>'
+def insta(root):
+    return (f'<a class="ig" href="{INSTAGRAM}"><img src="{root}assets/instagram.png" alt="Instagram" width="22" height="22">'
+            '<span>@lichi_app</span></a>')
 
 
 # ---------------------------------------------------------------- home
@@ -115,7 +116,7 @@ def insta():
 def home(lang):
     root = '' if lang == 'uk' else '../'
     if lang == 'uk':
-        title = 'Lichi — сканер складу продуктів для iPhone'
+        title = 'Lichi — сканер складу продуктів'
         desc = 'Наведіть камеру на штрихкод — Lichi покаже оцінку складу від 0 до 10 і пояснить її простими словами.'
         body = f'''
 <section class="hero">
@@ -175,13 +176,14 @@ def home(lang):
     <h2>Розробник</h2>
     <div class="dev">
       <img src="{root}assets/icon-96.png" alt="" width="64" height="64">
-      <p>Lichi створює Mark Rishko (Марк Рішко), Україна.<br>Питання, помилки в даних і пропозиції: {mail()}<br>Новини Lichi — в Instagram: {insta()}</p>
+      <p>Lichi створює Mark Rishko (Марк Рішко), Україна.<br>Питання, помилки в даних і пропозиції: {mail()}</p>
     </div>
+    <p class="social">Новини Lichi: {insta(root)}</p>
   </div>
 </section>
 '''
     else:
-        title = 'Lichi — food ingredient scanner for iPhone'
+        title = 'Lichi — food ingredient scanner'
         desc = 'Point your camera at a barcode: Lichi gives the product a 0–10 ingredient score and explains it in plain words.'
         body = f'''
 <section class="hero">
@@ -241,8 +243,9 @@ def home(lang):
     <h2>Developer</h2>
     <div class="dev">
       <img src="{root}assets/icon-96.png" alt="" width="64" height="64">
-      <p>Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: {mail()}<br>Lichi news on Instagram: {insta()}</p>
+      <p>Lichi is made by Mark Rishko, Ukraine.<br>Questions, data errors and ideas: {mail()}</p>
     </div>
+    <p class="social">Lichi news: {insta(root)}</p>
   </div>
 </section>
 '''
@@ -529,6 +532,7 @@ def details(items):
 
 
 def support(lang):
+    root = '' if lang == 'uk' else '../'
     if lang == 'uk':
         title = 'Підтримка — Lichi'
         desc = 'Питання про Lichi і підписку Lichi PRO, зв’язок з розробником.'
@@ -536,7 +540,7 @@ def support(lang):
 <article class="doc"><div class="prose-wrap">
 <h1>Підтримка</h1>
 <p class="intro">Відповіді на часті питання — нижче. Якщо не знайшли свою, напишіть нам.</p>
-<div class="contact"><p>Email: {mail()}<br>Instagram: {insta()}<br><span class="muted">Якщо питання про продукт, додайте штрихкод і фото упаковки (склад і таблицю поживності).</span></p></div>
+<div class="contact"><p>Email: {mail()}<br>{insta(root)}<br><span class="muted">Якщо питання про продукт, додайте штрихкод і фото упаковки (склад і таблицю поживності).</span></p></div>
 
 <h2>Lichi PRO і безкоштовні скани</h2>
 {details(PRO_FAQ[lang])}
@@ -558,7 +562,7 @@ def support(lang):
 <article class="doc"><div class="prose-wrap">
 <h1>Support</h1>
 <p class="intro">Answers to common questions are below. If yours is not there, write to us.</p>
-<div class="contact"><p>Email: {mail()}<br>Instagram: {insta()}<br><span class="muted">For a question about a product, include the barcode and a photo of the pack (ingredients and nutrition table).</span></p></div>
+<div class="contact"><p>Email: {mail()}<br>{insta(root)}<br><span class="muted">For a question about a product, include the barcode and a photo of the pack (ingredients and nutrition table).</span></p></div>
 
 <h2>Lichi PRO and free scans</h2>
 {details(PRO_FAQ[lang])}

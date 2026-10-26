@@ -133,6 +133,14 @@ summary::after { content: "+"; position: absolute; right: 4px; top: -2px; font-f
 details[open] summary::after { content: "−"; }
 details p { margin: 10px 0 2px; color: var(--ink); }
 
+/* Instagram: the official glyph from Meta's brand pack (IG_brand_asset_pack_2023, gradient), unaltered. */
+.ig { display: inline-flex; align-items: center; gap: 8px; vertical-align: middle; font-weight: 600; }
+.ig img { width: 22px; height: 22px; display: block; }
+.social { margin: 18px 0 0; }
+.site-foot nav { align-items: center; }
+.ig-only { display: inline-flex; padding: 2px; border-radius: 8px; }
+.ig-only img { width: 24px; height: 24px; display: block; }
+
 /* Footer */
 .site-foot { border-top: 1px solid var(--line); padding: 28px 0 40px; font-size: 15px; color: var(--muted); }
 .site-foot .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; }
