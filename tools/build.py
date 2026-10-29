@@ -162,7 +162,8 @@ def home(lang):
             ex_minus='Негативне', ex_minus_items=['Цукор'],
             ex_ingr='Склад', ex_ingr_items=[('green', 'Вівсяні пластівці'), ('amber', 'Мед'), ('green', 'Мигдаль'), ('blue', 'Кориця')],
             db_num='70 000+', db_h='продуктів з українських магазинів',
-            db_p1='Власна база з фото. Якщо продукту в ній немає, Lichi шукає його у відкритій базі Open Food Facts.',
+            db_num2='4 млн+', db_h2='продуктів з усього світу в Open Food Facts',
+            db_p1='Українські продукти — у нашій власній базі з фото. Якщо продукту там немає, Lichi шукає його за штрихкодом у відкритій світовій базі Open Food Facts. Її наповнюють люди з різних країн, тож дані іноді неповні.',
             db_p2='Історія сканувань і «Збережене» лишаються на вашому телефоні. Акаунт не потрібен, реклами немає.',
             pro_h='Безкоштовно і з Lichi PRO',
             free_t='Безкоштовно', free_d='3 нові продукти на день, а після першого ще 5 сканів у подарунок.',
@@ -186,6 +187,36 @@ def home(lang):
                 ('neutral', 'up', 'Ароматизатор', 'Дає запах і смак; на поживну цінність не впливає.'),
             ],
             an_note='Ілюстрація: вигаданий продукт, щоб показати, як виглядає розбір.',
+            basis_h='На чому ґрунтується оцінка',
+            basis_lead='Основа — шкали Nutri-Score 2023: цукор, сіль, насичені жири, калорійність, білок, клітковина й частка фруктів, овочів і бобових на 100 г. Цей алгоритм оновили незалежні науковці з харчування й громадського здоров’я для семи країн Європи.',
+            basis_epic='Великі дослідження EPIC (сотні тисяч людей у різних країнах Європи) пов’язують раціон, у якому більше продуктів з гіршим Nutri-Score, з вищим ризиком раку й серцево-судинних хвороб.',
+            basis_extra='Поверх цього ми враховуємо склад — лише там, де є офіційна позиція або сильні докази:',
+            basis_items=[
+                ('Цукор, сіль і жири', 'Рекомендації ВООЗ: менше вільних цукрів і солі, насичені жири краще заміняти ненасиченими.'),
+                ('Цільне зерно й клітковина', 'Огляд у The Lancet (2019): 185 когортних і 58 клінічних досліджень.'),
+                ('Нітрити', 'IARC (ВООЗ): оброблене м’ясо — канцероген групи 1. EFSA (2023): нітрозаміни в їжі — привід для занепокоєння.'),
+                ('Трансжири', 'ВООЗ і Регламент ЄС 2019/649, який обмежує промислові трансжири.'),
+                ('Підсолоджувачі', 'ВООЗ (2023) не радить їх для контролю ваги.'),
+                ('Барвники й E171', 'Регламент ЄС 1333/2008 вимагає попередження на етикетці для частини барвників. E171 заборонено в ЄС з 2022 року після висновку EFSA.'),
+            ],
+            basis_note='Бал 0–10 — власний метод Lichi на цій основі, а не Nutri-Score. Офіційну позначку Nutri-Score A–E Lichi показує окремо, коли вона є в Open Food Facts. Сам номер E бал не знижує.',
+            src_h='Джерела',
+            src_items=[
+                ('Nutri-Score: алгоритм і його оновлення — Santé publique France', 'https://www.santepubliquefrance.fr/en/nutri-score'),
+                ('EPIC: Nutri-Score і ризик раку — PLOS Medicine, 2018', 'https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1002651'),
+                ('EPIC: Nutri-Score і серцево-судинні хвороби — The Lancet Regional Health – Europe, 2024', 'https://doi.org/10.1016/j.lanepe.2024.101006'),
+                ('ВООЗ: вільні цукри, 2015', 'https://www.who.int/news/item/04-03-2015-who-calls-on-countries-to-reduce-sugars-intake-among-adults-and-children'),
+                ('ВООЗ: сіль і натрій', 'https://www.who.int/news-room/fact-sheets/detail/salt-reduction'),
+                ('ВООЗ: жири й вуглеводи, 2023', 'https://www.who.int/news/item/17-07-2023-who-updates-guidelines-on-fats-and-carbohydrates'),
+                ('ВООЗ: некалорійні підсолоджувачі, 2023', 'https://www.who.int/news/item/15-05-2023-who-advises-not-to-use-non-sugar-sweeteners-for-weight-control-in-newly-released-guideline'),
+                ('IARC (ВООЗ): червоне й оброблене м’ясо, 2015', 'https://www.iarc.who.int/wp-content/uploads/2018/07/pr240_E.pdf'),
+                ('EFSA: нітрозаміни в їжі, 2023', 'https://www.efsa.europa.eu/en/news/nitrosamines-food-raise-health-concern'),
+                ('EFSA: діоксид титану E171, 2021', 'https://www.efsa.europa.eu/en/news/titanium-dioxide-e171-no-longer-considered-safe-when-used-food-additive'),
+                ('Регламент ЄС 2022/63: заборона E171', 'https://eur-lex.europa.eu/eli/reg/2022/63/oj'),
+                ('Регламент ЄС 2019/649: трансжири', 'https://eur-lex.europa.eu/eli/reg/2019/649/oj'),
+                ('Регламент ЄС 1333/2008: харчові добавки й попередження про барвники', 'https://eur-lex.europa.eu/eli/reg/2008/1333/oj'),
+                ('The Lancet, 2019: якість вуглеводів, клітковина й цільне зерно', 'https://doi.org/10.1016/S0140-6736(18)31809-9'),
+            ],
         ),
         'en': dict(
             title='Lichi — food ingredient scanner',
@@ -212,7 +243,8 @@ def home(lang):
             ex_minus='Negative', ex_minus_items=['Sugar'],
             ex_ingr='Ingredients', ex_ingr_items=[('green', 'Rolled oats'), ('amber', 'Honey'), ('green', 'Almonds'), ('blue', 'Cinnamon')],
             db_num='70,000+', db_h='products from Ukrainian shops',
-            db_p1='Our own database, with photos. If a product is not there, Lichi looks it up in the open Open Food Facts database.',
+            db_num2='4M+', db_h2='products from around the world in Open Food Facts',
+            db_p1='Ukrainian products are in our own database, with photos. If a product is not there, Lichi looks up its barcode in the open, worldwide Open Food Facts database. People from many countries fill it in, so the data is sometimes incomplete.',
             db_p2='Your scan history and Saved products stay on your phone. No account needed, no ads.',
             pro_h='Free and with Lichi PRO',
             free_t='Free', free_d='3 new products a day, plus 5 gift scans after your first one.',
@@ -236,6 +268,36 @@ def home(lang):
                 ('neutral', 'up', 'Flavouring', 'Adds smell and taste; it doesn’t change the nutrition.'),
             ],
             an_note='Illustration: a made-up product, to show what the breakdown looks like.',
+            basis_h='What the score is based on',
+            basis_lead='The base is the Nutri-Score 2023 scales: sugar, salt, saturated fat, calories, protein, fibre and the share of fruit, vegetables and legumes per 100 g. Independent experts in nutrition and public health updated this algorithm for seven European countries.',
+            basis_epic='Large EPIC studies (hundreds of thousands of people across Europe) link diets with more foods of a worse Nutri-Score to a higher risk of cancer and cardiovascular disease.',
+            basis_extra='On top of that, we look at the ingredients — only where there is an official position or strong evidence:',
+            basis_items=[
+                ('Sugar, salt and fats', 'WHO guidelines: less free sugar and salt, and unsaturated fats in place of saturated ones.'),
+                ('Whole grains and fibre', 'A review in The Lancet (2019): 185 cohort studies and 58 clinical trials.'),
+                ('Nitrites', 'IARC (WHO): processed meat is a Group 1 carcinogen. EFSA (2023): nitrosamines in food raise a health concern.'),
+                ('Trans fats', 'WHO and EU Regulation 2019/649, which limits industrial trans fats.'),
+                ('Sweeteners', 'WHO (2023) advises against them for weight control.'),
+                ('Colours and E171', 'EU Regulation 1333/2008 requires a warning on the label for some colours. E171 has been banned in the EU since 2022 after EFSA’s opinion.'),
+            ],
+            basis_note='Lichi’s 0–10 score is its own method built on this base, not Nutri-Score. Lichi shows the official Nutri-Score A–E label separately when Open Food Facts has it. An E number on its own does not lower the score.',
+            src_h='Sources',
+            src_items=[
+                ('Nutri-Score: the algorithm and its update — Santé publique France', 'https://www.santepubliquefrance.fr/en/nutri-score'),
+                ('EPIC: Nutri-Score and cancer risk — PLOS Medicine, 2018', 'https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1002651'),
+                ('EPIC: Nutri-Score and cardiovascular disease — The Lancet Regional Health – Europe, 2024', 'https://doi.org/10.1016/j.lanepe.2024.101006'),
+                ('WHO: free sugars, 2015', 'https://www.who.int/news/item/04-03-2015-who-calls-on-countries-to-reduce-sugars-intake-among-adults-and-children'),
+                ('WHO: salt and sodium', 'https://www.who.int/news-room/fact-sheets/detail/salt-reduction'),
+                ('WHO: fats and carbohydrates, 2023', 'https://www.who.int/news/item/17-07-2023-who-updates-guidelines-on-fats-and-carbohydrates'),
+                ('WHO: non-sugar sweeteners, 2023', 'https://www.who.int/news/item/15-05-2023-who-advises-not-to-use-non-sugar-sweeteners-for-weight-control-in-newly-released-guideline'),
+                ('IARC (WHO): red and processed meat, 2015', 'https://www.iarc.who.int/wp-content/uploads/2018/07/pr240_E.pdf'),
+                ('EFSA: nitrosamines in food, 2023', 'https://www.efsa.europa.eu/en/news/nitrosamines-food-raise-health-concern'),
+                ('EFSA: titanium dioxide E171, 2021', 'https://www.efsa.europa.eu/en/news/titanium-dioxide-e171-no-longer-considered-safe-when-used-food-additive'),
+                ('EU Regulation 2022/63: the E171 ban', 'https://eur-lex.europa.eu/eli/reg/2022/63/oj'),
+                ('EU Regulation 2019/649: trans fat', 'https://eur-lex.europa.eu/eli/reg/2019/649/oj'),
+                ('EU Regulation 1333/2008: food additives and the colour warning', 'https://eur-lex.europa.eu/eli/reg/2008/1333/oj'),
+                ('The Lancet, 2019: carbohydrate quality, fibre and whole grains', 'https://doi.org/10.1016/S0140-6736(18)31809-9'),
+            ],
         ),
     }[lang]
 
@@ -299,6 +361,29 @@ def home(lang):
   </div>
 </section>
 '''
+    # What the score is based on (Mark, 2026-10-29): Nutri-Score 2023 as the base, official sources for the rest.
+    # Every link was opened and checked on 2026-10-29. The 0–10 score is never called Nutri-Score (CLAUDE.md of the app).
+    basis_items = ''.join(f'<li><b>{b}</b><span>{rest}</span></li>' for b, rest in c['basis_items'])
+    src_items = ''.join(f'<li><a href="{html.escape(url)}">{label}</a></li>' for label, url in c['src_items'])
+    basis = f'''
+<section class="block basis">
+  <div class="wrap">
+    <div class="basis-grid">
+      <div class="basis-copy">
+        <h2>{c['basis_h']}</h2>
+        <p>{c['basis_lead']}</p>
+        <p>{c['basis_epic']}</p>
+      </div>
+      <div class="basis-card">
+        <p class="basis-h">{c['basis_extra']}</p>
+        <ul class="basis-list">{basis_items}</ul>
+      </div>
+    </div>
+    <p class="note">{c['basis_note']}</p>
+    <div class="faq sources"><details><summary>{c['src_h']}</summary><ul class="src-list">{src_items}</ul></details></div>
+  </div>
+</section>
+'''
 
     body = f'''
 <section class="hero">
@@ -350,12 +435,15 @@ def home(lang):
 </section>
 
 {anatomy}
+{basis}
 <section class="block sheet-block">
   <div class="wrap">
     <div class="sheet">
       <div class="sheet-db">
         <p class="big-num">{c['db_num']}</p>
         <h2 class="num-h">{c['db_h']}</h2>
+        <p class="big-num big-num-2">{c['db_num2']}</p>
+        <p class="num-h num-h-2">{c['db_h2']}</p>
         <p>{c['db_p1']}</p>
         <p>{c['db_p2']}</p>
       </div>
