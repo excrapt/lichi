@@ -44,8 +44,9 @@ CSP = ("default-src 'self'; "
 
 
 def href(lang, page, from_lang):
-    """Relative link from a page in `from_lang` to `page` in `lang`."""
-    name = '' if page == 'index' else f'{page}.html'
+    """Relative link from a page in `from_lang` to `page` in `lang`. Without «.html» (Mark, 2026-10-30): GitHub Pages
+    serves privacy.html at /privacy too, and the old .html addresses keep working."""
+    name = '' if page == 'index' else page
     if lang == from_lang:
         return name or './'
     if from_lang == 'uk' and lang == 'en':
@@ -54,7 +55,7 @@ def href(lang, page, from_lang):
 
 
 def abs_url(lang, page):
-    name = '' if page == 'index' else f'{page}.html'
+    name = '' if page == 'index' else page
     return BASE + ('en/' if lang == 'en' else '') + name
 
 
@@ -453,7 +454,7 @@ def home(lang):
           <div><dt>{c['free_t']}</dt><dd>{c['free_d']}</dd></div>
           <div class="pro"><dt>{c['pro_t']}</dt><dd>{c['pro_d']}</dd></div>
         </dl>
-        <p><a href="terms.html#pro">{c['pro_link']}</a></p>
+        <p><a href="terms#pro">{c['pro_link']}</a></p>
       </div>
     </div>
     <p class="note">{c['note']}</p>
@@ -773,7 +774,7 @@ def support(lang):
 {details(FAQ[lang])}
 
 <h2>Ваші дані</h2>
-<p>Акаунт не потрібен. Історія сканувань, «Збережене» й налаштування зберігаються лише на телефоні та зникають, коли ви видаляєте застосунок. Докладніше — у <a href="privacy.html">політиці конфіденційності</a>.</p>
+<p>Акаунт не потрібен. Історія сканувань, «Збережене» й налаштування зберігаються лише на телефоні та зникають, коли ви видаляєте застосунок. Докладніше — у <a href="privacy">політиці конфіденційності</a>.</p>
 
 <h2>Розробник</h2>
 <p>Mark Rishko (Марк Рішко), Україна — {mail()}</p>
@@ -795,7 +796,7 @@ def support(lang):
 {details(FAQ[lang])}
 
 <h2>Your data</h2>
-<p>No account is needed. Your scan history, Saved products and settings are stored only on your phone and are removed when you delete the app. Read more in the <a href="privacy.html">Privacy Policy</a>.</p>
+<p>No account is needed. Your scan history, Saved products and settings are stored only on your phone and are removed when you delete the app. Read more in the <a href="privacy">Privacy Policy</a>.</p>
 
 <h2>Developer</h2>
 <p>Mark Rishko, Ukraine — {mail()}</p>
@@ -841,13 +842,13 @@ for lang in ('uk', 'en'):
 nf_body = f'''
 <article class="doc"><div class="prose-wrap">
 <h1>Сторінку не знайдено</h1>
-<p class="intro">Такої сторінки немає. Перейдіть на <a href="{PATH}">головну</a> або до <a href="{PATH}support.html">підтримки</a>.</p>
-<p lang="en">This page does not exist. Go to the <a href="{PATH}en/">home page</a> or <a href="{PATH}en/support.html">support</a>.</p>
+<p class="intro">Такої сторінки немає. Перейдіть на <a href="{PATH}">головну</a> або до <a href="{PATH}support">підтримки</a>.</p>
+<p lang="en">This page does not exist. Go to the <a href="{PATH}en/">home page</a> or <a href="{PATH}en/support">support</a>.</p>
 </div></article>
 '''
 nf = layout('uk', 'index', 'Сторінку не знайдено — Lichi', 'Сторінку не знайдено.', nf_body)
-nf = nf.replace('href="./"', f'href="{PATH}"').replace('href="support.html"', f'href="{PATH}support.html"') \
-       .replace('href="privacy.html"', f'href="{PATH}privacy.html"').replace('href="terms.html"', f'href="{PATH}terms.html"') \
+nf = nf.replace('href="./"', f'href="{PATH}"').replace('href="support"', f'href="{PATH}support"') \
+       .replace('href="privacy"', f'href="{PATH}privacy"').replace('href="terms"', f'href="{PATH}terms"') \
        .replace('href="en/"', f'href="{PATH}en/"').replace('href="favicon.png"', f'href="{PATH}favicon.png"') \
        .replace('href="assets/', f'href="{PATH}assets/').replace('src="assets/', f'src="{PATH}assets/')
 (OUT / '404.html').write_text(nf, encoding='utf-8')
