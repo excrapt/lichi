@@ -10,7 +10,7 @@ BASE = 'https://lichi.mom/'
 PATH = '/'  # where the site lives on its domain ('/lichi/' on excrapt.github.io before the custom domain)
 EMAIL = 'lichisupport@gmail.com'
 INSTAGRAM = 'https://www.instagram.com/lichi_app/'
-UPDATED = {'uk': '26 жовтня 2026 р.', 'en': 'October 26, 2026'}
+UPDATED = {'uk': '5 листопада 2026 р.', 'en': 'November 5, 2026'}
 EULA = 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
 
 T = {
@@ -167,7 +167,7 @@ def home(lang):
             db_p1='Українські продукти — у нашій власній базі з фото. Якщо продукту там немає, Lichi шукає його за штрихкодом у відкритій світовій базі Open Food Facts. Її наповнюють люди з різних країн, тож дані іноді неповні.',
             db_p2='Історія сканувань і «Збережене» лишаються на вашому телефоні. Акаунт не потрібен, реклами немає.',
             pro_h='Безкоштовно і з Lichi PRO',
-            free_t='Безкоштовно', free_d='3 нові продукти на день, а після першого ще 5 сканів у подарунок.',
+            free_t='Безкоштовно', free_d='Після першого скану — 10 сканів у подарунок, далі 3 нові продукти на тиждень.',
             pro_t='Lichi PRO', pro_d='Скани без ліміту й пошук продуктів з оцінками. Місяць або рік; ціну App Store показує перед покупкою.',
             pro_link='Умови підписки',
             note='Оцінка Lichi описує сам продукт, а не ваш стан здоров’я. Це не медична порада. Якщо у вас алергії чи особлива дієта, завжди перевіряйте упаковку.',
@@ -248,7 +248,7 @@ def home(lang):
             db_p1='Ukrainian products are in our own database, with photos. If a product is not there, Lichi looks up its barcode in the open, worldwide Open Food Facts database. People from many countries fill it in, so the data is sometimes incomplete.',
             db_p2='Your scan history and Saved products stay on your phone. No account needed, no ads.',
             pro_h='Free and with Lichi PRO',
-            free_t='Free', free_d='3 new products a day, plus 5 gift scans after your first one.',
+            free_t='Free', free_d='After your first scan, 10 gift scans, then 3 new products a week.',
             pro_t='Lichi PRO', pro_d='Unlimited scans and product search with scores. Monthly or yearly; the App Store shows the price before you buy.',
             pro_link='Subscription terms',
             note='Lichi’s score describes the product itself, not your health. It is not medical advice. If you have allergies or a special diet, always check the pack.',
@@ -519,7 +519,7 @@ def privacy(lang):
 <p>Lichi використовує камеру лише для сканування штрихкодів і пошуку продуктів. Штрихкод розпізнається на телефоні; зображення з камери нікуди не надсилаються.</p>
 
 <h2>На пристрої</h2>
-<p>Історія сканувань, збережені продукти, ваш рівень і налаштування нагадувань зберігаються лише на цьому пристрої. Вони зникають, коли ви видаляєте застосунок.</p>
+<p>Історія сканувань, збережені продукти, ваш рівень і налаштування нагадувань зберігаються лише на цьому пристрої. Вони зникають, коли ви видаляєте застосунок. Лічильник безкоштовних сканів телефон тримає ще й у захищеному сховищі iOS (Keychain): він лишається після видалення застосунку, щоб ліміт не починався заново.</p>
 
 <h2>Без акаунта</h2>
 <p>Акаунт не потрібен: Lichi не просить ваше ім’я, email чи номер телефону і не створює профіль.</p>
@@ -582,7 +582,7 @@ def privacy(lang):
 <p>Lichi uses the camera only to scan barcodes and look up products. The barcode is read on your phone; camera images are never sent anywhere.</p>
 
 <h2>On this device</h2>
-<p>Your scan history, saved products, level and reminder settings are stored only on this device. They are removed when you delete the app.</p>
+<p>Your scan history, saved products, level and reminder settings are stored only on this device. They are removed when you delete the app. The free-scan counter is also kept in the iOS secure storage (Keychain): it stays after you delete the app, so the limit does not start over.</p>
 
 <h2>No account</h2>
 <p>No account is needed: Lichi does not ask for your name, email or phone number and does not create a profile.</p>
@@ -664,7 +664,7 @@ def terms(lang):
 
 <h2 id="pro">Lichi PRO</h2>
 <p>Lichi PRO — підписка на місяць або на рік, що поновлюється автоматично. Ціну App Store показує перед покупкою. Якщо Apple дає вам пробний тиждень, першу оплату знімуть з Apple ID після нього, далі — на початку кожного терміну, поки ви не скасуєте.</p>
-<p>Скасувати можна в налаштуваннях Apple ID щонайменше за 24 години до кінця пробного тижня чи поточного терміну; PRO працює до кінця оплаченого. Без PRO — 3 нові продукти на день і 5 сканів у подарунок після першого.</p>
+<p>Скасувати можна в налаштуваннях Apple ID щонайменше за 24 години до кінця пробного тижня чи поточного терміну; PRO працює до кінця оплаченого. Без PRO — 3 нові продукти на тиждень (нові — щопонеділка) і 10 сканів у подарунок після першого.</p>
 
 <h2>Контакти</h2>
 <p>Mark Rishko (Марк Рішко), Україна — {mail()}</p>
@@ -700,7 +700,7 @@ def terms(lang):
 
 <h2 id="pro">Lichi PRO</h2>
 <p>Lichi PRO is a monthly or yearly subscription that renews automatically. The App Store shows the price before you buy. If Apple gives you a free week, the first payment is charged to your Apple ID after it, and then at the start of each period until you cancel.</p>
-<p>Cancel in your Apple ID settings at least 24 hours before the free week or the current period ends; PRO keeps working until the end of what you paid for. Without PRO: 3 new products a day and 5 gift scans after the first one.</p>
+<p>Cancel in your Apple ID settings at least 24 hours before the free week or the current period ends; PRO keeps working until the end of what you paid for. Without PRO: 3 new products a week (new ones every Monday) and 10 gift scans after the first one.</p>
 
 <h2>Contact</h2>
 <p>Mark Rishko, Ukraine — {mail()}</p>
@@ -736,14 +736,14 @@ FAQ = {
 
 PRO_FAQ = {
     'uk': [
-        ('Скільки можна сканувати безкоштовно?', 'Без PRO — 3 нові продукти на день, а після першого продукту ще 5 сканів у подарунок; подарунок не згорає. Повторний скан того самого продукту того ж дня не рахується.'),
+        ('Скільки можна сканувати безкоштовно?', 'Без PRO — після першого продукту 10 сканів у подарунок (подарунок не згорає), далі 3 нові продукти на тиждень; нові — щопонеділка. Повторний скан того самого продукту того ж тижня не рахується.'),
         ('Як оформити Lichi PRO?', 'У Lichi відкрийте «Профіль» → «Lichi PRO» і оберіть місяць або рік. Ціну App Store показує перед покупкою.'),
         ('Як скасувати підписку?', 'На iPhone: «Налаштування» → ваше ім’я → «Підписки» → Lichi → «Скасувати підписку». Або в Lichi: «Профіль» → «Lichi PRO» → «Скасувати» — відкриється те саме вікно Apple. Скасуйте щонайменше за 24 години до кінця пробного тижня чи оплаченого терміну; PRO працює до кінця оплаченого.'),
         ('Новий iPhone або перевстановили застосунок', 'Відкрийте «Профіль» → «Відновити покупки». Потрібен той самий Apple ID, з яким ви оформлювали підписку.'),
         ('Як повернути гроші?', 'Оплату приймає Apple, тож і повернення оформлює Apple: <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>.'),
     ],
     'en': [
-        ('How much can I scan for free?', 'Without PRO: 3 new products a day, plus 5 gift scans after your first product; the gift does not expire. Scanning the same product again on the same day does not count.'),
+        ('How much can I scan for free?', 'Without PRO: 10 gift scans after your first product (the gift does not expire), then 3 new products a week; new ones every Monday. Scanning the same product again in the same week does not count.'),
         ('How do I get Lichi PRO?', 'In Lichi, open Profile → Lichi PRO and choose monthly or yearly. The App Store shows the price before you buy.'),
         ('How do I cancel?', 'On iPhone: Settings → your name → Subscriptions → Lichi → Cancel Subscription. Or in Lichi: Profile → Lichi PRO → Cancel, which opens the same Apple window. Cancel at least 24 hours before the free week or the paid period ends; PRO keeps working until the end of what you paid for.'),
         ('New iPhone or reinstalled the app', 'Open Profile → Restore Purchases. Use the same Apple ID you subscribed with.'),
